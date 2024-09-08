@@ -4,15 +4,34 @@ import (
 	"log"
 	"os"
 
-	"github.com/supabase-community/supabase-go"
+	"github.com/Fingertips18/go-auth/models"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func ConnectDB() {
-	API_URL := os.Getenv("SUPABASE_URL")
-	API_KEY := os.Getenv("SUPABASE_PUBLIC_KEY")
-	_, err := supabase.NewClient(API_URL, API_KEY, nil)
+var DB *gorm.DB
+
+func ConnectDB() error {
+	URI := os.Getenv("SUPABASE_URI")
+	conn, err := gorm.Open(postgres.Open(URI), &gorm.Config{
+		SkipDefaultTransaction: true,
+		PrepareStmt:            true,
+	})
 	if err != nil {
-		log.Fatal("Error creating supabase client %v", err)
+		log.Fatalf("Error connecting to Supabase: %v", err)
+		return err
 	}
 
+	if os.Getenv("RUN_MIGRATIONS") == "true" {
+		log.Println("Running migration...")
+		err = conn.AutoMigrate(&models.User{})
+		if err != nil {
+			log.Fatalf("Error running migrations: %v", err)
+			return err
+		}
+	}
+
+	DB = conn
+
+	return nil
 }

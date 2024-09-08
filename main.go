@@ -15,7 +15,9 @@ func main() {
 	configs.LoadEnv()
 
 	// Connect to supabase
-	database.ConnectDB()
+	if err := database.ConnectDB(); err != nil {
+		log.Fatal("Failed to connect to database")
+	}
 
 	app := fiber.New()
 
