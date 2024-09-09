@@ -28,9 +28,7 @@ func ConnectDB() error {
 		}
 	}
 
-	if DB == nil {
-		DB = conn
-	}
+	DB = conn
 
 	return nil
 }

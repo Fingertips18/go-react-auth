@@ -37,7 +37,7 @@ func SignIn(c fiber.Ctx) error {
 	}
 
 	var user models.User
-	res := database.DB.Where(`"emailAddress" = ?`, data["email"]).First(&user)
+	res := database.DB.Raw(`SELECT * FROM "users" WHERE "emailAddress" = ?`, data["email"]).Scan(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})
@@ -58,4 +58,9 @@ func SignIn(c fiber.Ctx) error {
 
 	user.Password = ""
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Sign in successful", "user": user})
+}
+
+func SignOut(c fiber.Ctx) error {
+	utils.ClearCookieToken(c)
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Sign out successful"})
 }
