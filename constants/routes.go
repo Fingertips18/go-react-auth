@@ -1,6 +1,15 @@
 package constants
 
-const SIGNUP = "/api/auth/sign-up"
-const SIGNIN = "/api/auth/sign-in"
-const SIGNOUT = "/api/auth/sign-out"
-const VERIFY = "/api/auth/verify"
+const (
+	ROOT = "/"
+	AUTH = "/api/auth"
+)
+
+const (
+	SIGNUP         = "/sign-up"
+	SIGNIN         = "/sign-in"
+	SIGNOUT        = "/sign-out"
+	VERIFY         = "/verify"
+	FORGOTPASSWORD = "/forgot-password"
+	RESETPASSWORD  = "/reset-password"
+)

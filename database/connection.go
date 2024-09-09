@@ -9,11 +9,13 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+var CONN *gorm.DB
 
 func ConnectDB() error {
 	URI := os.Getenv("SUPABASE_URI")
-	conn, err := gorm.Open(postgres.Open(URI), &gorm.Config{})
+	connection, err := gorm.Open(postgres.Open(URI), &gorm.Config{
+		SkipDefaultTransaction: true,
+	})
 	if err != nil {
 		log.Fatalf("Error connecting to Supabase: %v", err)
 		return err
@@ -21,14 +23,14 @@ func ConnectDB() error {
 
 	if os.Getenv("RUN_MIGRATIONS") == "true" {
 		log.Println("Running migration...")
-		err = conn.AutoMigrate(&models.User{})
+		err = connection.AutoMigrate(&models.User{})
 		if err != nil {
 			log.Fatalf("Error running migrations: %v", err)
 			return err
 		}
 	}
 
-	DB = conn
+	CONN = connection
 
 	return nil
 }

@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"crypto/rand"
+	"encoding/base64"
 	"log"
 	"os"
 	"time"
@@ -9,7 +11,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func GenerateToken(id string, username string) (string, error) {
+func GenerateJWTToken(id string, username string) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
 		Issuer:    id,
 		IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -88,4 +90,16 @@ func ParseCookieToken(c fiber.Ctx) (*jwt.RegisteredClaims, error) {
 	claims := token.Claims.(*jwt.RegisteredClaims)
 
 	return claims, nil
+}
+
+func GenerateResetToken() (*string, error) {
+	byteToken := make([]byte, 16)
+	_, err := rand.Read(byteToken)
+	if err != nil {
+		return nil, err
+	}
+
+	token := base64.URLEncoding.EncodeToString(byteToken)
+
+	return &token, nil
 }

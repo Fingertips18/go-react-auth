@@ -14,6 +14,9 @@ func main() {
 	// Initialize environment variables
 	configs.LoadEnv()
 
+	// Configure smtp email
+	configs.ConfigureEmail()
+
 	// Connect to supabase
 	if err := database.ConnectDB(); err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
