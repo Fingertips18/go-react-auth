@@ -13,10 +13,7 @@ var DB *gorm.DB
 
 func ConnectDB() error {
 	URI := os.Getenv("SUPABASE_URI")
-	conn, err := gorm.Open(postgres.Open(URI), &gorm.Config{
-		SkipDefaultTransaction: true,
-		PrepareStmt:            true,
-	})
+	conn, err := gorm.Open(postgres.Open(URI), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Error connecting to Supabase: %v", err)
 		return err
@@ -31,7 +28,9 @@ func ConnectDB() error {
 		}
 	}
 
-	DB = conn
+	if DB == nil {
+		DB = conn
+	}
 
 	return nil
 }
