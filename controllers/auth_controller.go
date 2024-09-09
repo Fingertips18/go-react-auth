@@ -64,3 +64,24 @@ func SignOut(c fiber.Ctx) error {
 	utils.ClearCookieToken(c)
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Sign out successful"})
 }
+
+func Verify(c fiber.Ctx) error {
+
+	claims, err := utils.ParseCookieToken(c)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Unauthorized"})
+	}
+
+	var user models.User
+
+	res := database.DB.Raw(`SELECT * FROM "users" WHERE "id" = ?`, claims.Issuer).Scan(&user)
+	if res.Error != nil {
+		if res.Error == gorm.ErrRecordNotFound {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": res.Error.Error()})
+	}
+
+	user.Password = ""
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Session valid", "user": user})
+}

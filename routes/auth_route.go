@@ -10,4 +10,5 @@ func UseAuthRoute(app *fiber.App) {
 	app.Post(constants.SIGNUP, controllers.SignUp)
 	app.Post(constants.SIGNIN, controllers.SignIn)
 	app.Post(constants.SIGNOUT, controllers.SignOut)
+	app.Get(constants.VERIFY, controllers.Verify)
 }

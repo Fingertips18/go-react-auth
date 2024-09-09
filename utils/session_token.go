@@ -19,6 +19,9 @@ func GenerateToken(id string, username string) (string, error) {
 	})
 
 	SECRET_KEY := os.Getenv("SECRET_KEY")
+	if SECRET_KEY == "" {
+		log.Fatal("SECRET_KEY must be set")
+	}
 	token, err := claims.SignedString([]byte(SECRET_KEY))
 
 	if err != nil {
@@ -64,4 +67,25 @@ func ClearCookieToken(c fiber.Ctx) {
 	}
 
 	c.Cookie(&cookie)
+}
+
+func ParseCookieToken(c fiber.Ctx) (*jwt.RegisteredClaims, error) {
+	tokenString := c.Cookies("token")
+
+	SECRET_KEY := os.Getenv("SECRET_KEY")
+	if SECRET_KEY == "" {
+		log.Fatal("SECRET_KEY must be set")
+	}
+
+	token, err := jwt.ParseWithClaims(tokenString, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(SECRET_KEY), nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	claims := token.Claims.(*jwt.RegisteredClaims)
+
+	return claims, nil
 }
