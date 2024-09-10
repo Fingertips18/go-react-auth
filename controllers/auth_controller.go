@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"math/rand"
+	"strconv"
 	"time"
 
 	"github.com/Fingertips18/go-auth/database"
@@ -33,9 +35,20 @@ func SignUp(c fiber.Ctx) error {
 
 	user.Password = password
 
+	verificationToken := rand.Intn(9000) + 1000
+
+	tokenString := strconv.Itoa(verificationToken)
+	user.VerificationToken = &tokenString
+	exp := time.Now().Add(time.Hour * 24)
+	user.VerificationTokenExpiration = &exp
+
 	res := database.Instance.Create(&user)
 	if res.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Unable to create user"})
+	}
+
+	if err := utils.SendEmailVerification(user.Email, user.Username, *user.VerificationToken); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err})
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "User created successfully", "user": user})
@@ -71,6 +84,7 @@ func SignIn(c fiber.Ctx) error {
 	utils.SetCookieToken(c, token)
 
 	user.LastSignedIn = time.Now()
+
 	res = database.Instance.Save(&user)
 	if res.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Unable to save sign in credentials"})
@@ -84,7 +98,42 @@ func SignOut(c fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Sign out successful"})
 }
 
-func Verify(c fiber.Ctx) error {
+func VerifyEmail(c fiber.Ctx) error {
+	var data struct {
+		Token string `json:"token"`
+	}
+
+	if err := c.Bind().JSON(&data); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Either token is invalid or empty"})
+	}
+
+	var user models.User
+
+	res := database.Instance.Where("reset_password_token = ?", data.Token).Where("reset_password_token_exp > ?", time.Now()).First(&user)
+	if res.Error != nil {
+		if res.Error == gorm.ErrRecordNotFound {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Invalid or expired verification token"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": res.Error.Error()})
+	}
+
+	user.IsVerified = true
+	user.VerificationToken = nil
+	user.VerificationTokenExpiration = nil
+
+	res = database.Instance.Save(&user)
+	if res.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Unable to save email verification credentials"})
+	}
+
+	if err := utils.SendWelcomeEmail(user.Email, user.Username); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Welcome message has been sent to your email"})
+}
+
+func VerifyToken(c fiber.Ctx) error {
 	claims, err := utils.ParseCookieToken(c)
 	if err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Unauthorized"})
@@ -100,7 +149,6 @@ func Verify(c fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": res.Error.Error()})
 	}
 
-	user.Password = ""
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Session valid", "user": user})
 }
 
@@ -127,8 +175,8 @@ func ForgotPassword(c fiber.Ctx) error {
 	}
 	resetPasswordTokenExp := time.Now().Add(time.Minute * 15)
 
-	user.ResetPasswordToken = *resetPasswordToken
-	user.ResetPasswordTokenExpiration = resetPasswordTokenExp
+	user.ResetPasswordToken = resetPasswordToken
+	user.ResetPasswordTokenExpiration = &resetPasswordTokenExp
 
 	res = database.Instance.Save(&user)
 	if res.Error != nil {
@@ -171,8 +219,8 @@ func ResetPassword(c fiber.Ctx) error {
 	}
 
 	user.Password = password
-	user.ResetPasswordToken = ""
-	user.ResetPasswordToken = ""
+	user.ResetPasswordToken = nil
+	user.ResetPasswordTokenExpiration = nil
 
 	res = database.Instance.Save(&user)
 	if res.Error != nil {
@@ -183,5 +231,5 @@ func ResetPassword(c fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err})
 	}
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Password reset success link has been sent to your email"})
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Password reset success details has been sent to your email"})
 }

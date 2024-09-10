@@ -12,6 +12,43 @@ import (
 	"github.com/Fingertips18/go-auth/templates"
 )
 
+func SendWelcomeEmail(toEmail string, username string) error {
+	const subject = "Welcome Message"
+	body := strings.Replace(templates.WELCOME_MESSAGE_TEMPLATE, "{username}", username, 1)
+	from := configs.Email
+	to := toEmail
+
+	msg := fmt.Sprintf("From: %s\nTo: %s\nSubject: %s\nMime-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n%s", from, to, subject, body)
+
+	err := smtp.SendMail(configs.SMTPADDRESS, configs.SMTPAuth, configs.Email, []string{toEmail}, []byte(msg))
+	if err != nil {
+		return err
+	}
+
+	log.Println("welcome email sent")
+
+	return nil
+}
+
+func SendEmailVerification(toEmail string, username string, code string) error {
+	const subject = "Verify Your Email"
+	body := strings.Replace(templates.VERIFY_EMAIL_TEMPLATE, "{username}", username, 1)
+	body = strings.Replace(body, "{code}", code, 1)
+	from := configs.Email
+	to := toEmail
+
+	msg := fmt.Sprintf("From: %s\nTo: %s\nSubject: %s\nMime-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n%s", from, to, subject, body)
+
+	err := smtp.SendMail(configs.SMTPADDRESS, configs.SMTPAuth, configs.Email, []string{toEmail}, []byte(msg))
+	if err != nil {
+		return err
+	}
+
+	log.Println("Verification email sent")
+
+	return nil
+}
+
 func SendEmailRequestResetPassword(toEmail string, resetToken string) error {
 	CLIENT_URL := os.Getenv("CLIENT_URL")
 	if CLIENT_URL == "" {
