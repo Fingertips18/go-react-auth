@@ -10,6 +10,7 @@ const (
 	SIGNIN         = "/sign-in"
 	SIGNOUT        = "/sign-out"
 	VERIFYEMAIL    = "/verify-email"
+	RESENDVERIFY   = "/resend-verify"
 	VERIFYTOKEN    = "/verify-token"
 	FORGOTPASSWORD = "/forgot-password"
 	RESETPASSWORD  = "/reset-password"

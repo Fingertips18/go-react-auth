@@ -27,7 +27,7 @@ const _WELCOME_MESSAGE_HTML = `
       <li>Explore our features</li>
       <li>Join our community forums</li>
     </ul>
-    <p>If you have any questions, feel free to send email at <a href="email@example.com" style="color: %s;">to contact our support team</a>.</p>
+    <p>If you have any questions, feel free to send email at <a href="email@example.com" style="color: %s;">email@example.com</a>to contact our support team.</p>
     <p>Best regards,<br>The Team</p>
   </div>
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">

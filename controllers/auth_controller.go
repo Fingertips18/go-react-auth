@@ -119,7 +119,7 @@ func VerifyEmail(c fiber.Ctx) error {
 
 	var user models.User
 
-	res := database.Instance.Where("reset_password_token = ?", data.Token).Where("reset_password_token_exp > ?", time.Now()).First(&user)
+	res := database.Instance.Where("verification_token = ?", data.Token).Where("verification_token_exp > ?", time.Now()).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Invalid or expired verification token"})
@@ -141,6 +141,43 @@ func VerifyEmail(c fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Welcome message has been sent to your email"})
+}
+
+func ResendVerify(c fiber.Ctx) error {
+	var data struct {
+		Email string `json:"email"`
+	}
+
+	if err := c.Bind().Body(&data); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Either email is invalid or empty"})
+	}
+
+	var user models.User
+
+	res := database.Instance.Where("email_address = ?", data.Email).First(&user)
+	if res.Error != nil {
+		if res.Error == gorm.ErrRecordNotFound {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": res.Error.Error()})
+	}
+
+	if time.Now().After(*user.VerificationTokenExpiration) {
+		verificationToken := rand.Intn(9000) + 1000
+		tokenString := strconv.Itoa(verificationToken)
+		user.VerificationToken = &tokenString
+
+		res = database.Instance.Save(&user)
+		if res.Error != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Unable to save email verification credentials"})
+		}
+	}
+
+	if err := utils.SendEmailVerification(user.Email, user.Username, *user.VerificationToken); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Verification code has been sent to your email"})
 }
 
 func VerifyToken(c fiber.Ctx) error {
