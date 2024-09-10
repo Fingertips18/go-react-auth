@@ -12,7 +12,9 @@ import (
 
 func main() {
 	// Initialize environment variables
-	configs.LoadEnv()
+	if err := configs.LoadEnv(); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
 
 	// Configure smtp email
 	configs.ConfigureEmail()

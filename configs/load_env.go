@@ -1,14 +1,12 @@
 package configs
 
-import (
-	"log"
+import "github.com/joho/godotenv"
 
-	"github.com/joho/godotenv"
-)
-
-func LoadEnv() {
+func LoadEnv() error {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		return err
 	}
+
+	return nil
 }

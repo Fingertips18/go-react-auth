@@ -12,12 +12,17 @@ import (
 )
 
 func GenerateJWTToken(id string, username string) (string, error) {
+	CLIENT_URL := os.Getenv("CLIENT_URL")
+	if CLIENT_URL == "" {
+		log.Fatal("CLIENT_URL must be set")
+	}
+
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
 		Issuer:    id,
 		IssuedAt:  jwt.NewNumericDate(time.Now()),
 		Subject:   username,
 		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 7)),
-		Audience:  jwt.ClaimStrings{"http://localhost:5000"},
+		Audience:  jwt.ClaimStrings{CLIENT_URL},
 	})
 
 	SECRET_KEY := os.Getenv("SECRET_KEY")
@@ -45,7 +50,7 @@ func SetCookieToken(c fiber.Ctx, token string) {
 		Value:    token,
 		HTTPOnly: true,
 		Secure:   ENV == "production",
-		SameSite: "strict",
+		SameSite: fiber.CookieSameSiteStrictMode,
 		Expires:  time.Now().Add(time.Hour * 24 * 7),
 	}
 
@@ -64,8 +69,9 @@ func ClearCookieToken(c fiber.Ctx) {
 		Value:    "",
 		HTTPOnly: true,
 		Secure:   ENV == "production",
-		SameSite: "strict",
-		Expires:  time.Now().Add(-time.Hour),
+		SameSite: fiber.CookieSameSiteStrictMode,
+		Expires:  time.Now().Add(-(time.Hour * 24)),
+		MaxAge:   -1,
 	}
 
 	c.Cookie(&cookie)
@@ -87,7 +93,14 @@ func ParseCookieToken(c fiber.Ctx) (*jwt.RegisteredClaims, error) {
 		return nil, err
 	}
 
-	claims := token.Claims.(*jwt.RegisteredClaims)
+	claims, ok := token.Claims.(*jwt.RegisteredClaims)
+	if !ok {
+		return nil, fiber.NewError(fiber.StatusUnauthorized, "Invalid token claims")
+	}
+
+	if time.Now().After(claims.ExpiresAt.Time) {
+		return nil, fiber.NewError(fiber.StatusUnauthorized, "Invalid token")
+	}
 
 	return claims, nil
 }
