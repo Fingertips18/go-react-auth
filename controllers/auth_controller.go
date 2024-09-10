@@ -36,9 +36,9 @@ func SignUp(c fiber.Ctx) error {
 	user.Password = password
 
 	verificationToken := rand.Intn(9000) + 1000
-
 	tokenString := strconv.Itoa(verificationToken)
 	user.VerificationToken = &tokenString
+
 	exp := time.Now().Add(time.Hour * 24)
 	user.VerificationTokenExpiration = &exp
 
@@ -84,6 +84,16 @@ func SignIn(c fiber.Ctx) error {
 	utils.SetCookieToken(c, token)
 
 	user.LastSignedIn = time.Now()
+
+	if time.Now().After(*user.VerificationTokenExpiration) {
+		verificationToken := rand.Intn(9000) + 1000
+		tokenString := strconv.Itoa(verificationToken)
+		user.VerificationToken = &tokenString
+
+		if err := utils.SendEmailVerification(user.Email, user.Username, *user.VerificationToken); err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err})
+		}
+	}
 
 	res = database.Instance.Save(&user)
 	if res.Error != nil {
