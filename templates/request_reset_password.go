@@ -6,7 +6,7 @@ import (
 	"github.com/Fingertips18/go-auth/constants"
 )
 
-const _RESET_PASSWORD_HTML = `
+const _REQUEST_RESET_PASSWORD_HTML = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,14 +16,14 @@ const _RESET_PASSWORD_HTML = `
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: %s; max-width: 600px; margin: 0 auto; padding: 20px;">
   <div style="background: linear-gradient(to right, %s, %s); padding: 20px; text-align: center;">
-    <h1 style="color: %s; margin: 0;">Password Reset</h1>
+    <h1 style="color: #DCF9F5; margin: 0;">Password Request Reset</h1>
   </div>
   <div style="background-color: %s; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     <p>Hello,</p>
     <p>We received a request to reset your password. If you didn't make this request, please ignore this email.</p>
     <p>To reset your password, click the button below:</p>
     <div style="text-align: center; margin: 30px 0;">
-      <a href="{resetURL}" style="background-color: %s; color: #000; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Reset Password</a>
+      <a href="{resetURL}" style="background-color: %s; color: #DCF9F5; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Reset Password</a>
     </div>
     <p>This link will expire in 1 hour for security reasons.</p>
     <p>Best regards,<br>Fingertips</p>
@@ -35,4 +35,4 @@ const _RESET_PASSWORD_HTML = `
 </html>
 `
 
-var RESET_PASSWORD_REQUEST_TEMPLATE = fmt.Sprintf(_RESET_PASSWORD_HTML, constants.FOREGROUND, constants.PRIMARY, constants.ACCENT, constants.FOREGROUND, constants.BACKGROUND, constants.PRIMARY)
+var RESET_PASSWORD_REQUEST_TEMPLATE = fmt.Sprintf(_REQUEST_RESET_PASSWORD_HTML, constants.FOREGROUND, constants.PRIMARY, constants.ACCENT, constants.BACKGROUND, constants.PRIMARY)

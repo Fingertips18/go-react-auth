@@ -6,11 +6,12 @@ import (
 	"os"
 )
 
-var SMTPAUTH smtp.Auth
+var (
+	SMTPAuth smtp.Auth
+	Email    string
+)
 
 const SMTPADDRESS = "smtp.gmail.com:587"
-
-var EMAIL string
 
 func ConfigureEmail() {
 	EMAIL := os.Getenv("EMAIL")
@@ -19,5 +20,5 @@ func ConfigureEmail() {
 		log.Fatal("EMAIL or EMAIL_APP_PASSWORD must be set")
 	}
 
-	SMTPAUTH = smtp.PlainAuth("", EMAIL, PASSWORD, "smtp.gmail.com")
+	SMTPAuth = smtp.PlainAuth("", EMAIL, PASSWORD, "smtp.gmail.com")
 }

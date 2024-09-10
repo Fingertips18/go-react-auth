@@ -18,9 +18,7 @@ func main() {
 	configs.ConfigureEmail()
 
 	// Connect to supabase
-	if err := database.ConnectDB(); err != nil {
-		log.Fatalf("Failed to connect to database: %v", err)
-	}
+	database.ConnectDB()
 
 	app := fiber.New()
 

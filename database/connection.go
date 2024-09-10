@@ -9,28 +9,34 @@ import (
 	"gorm.io/gorm"
 )
 
-var CONN *gorm.DB
+var Instance *gorm.DB
 
-func ConnectDB() error {
+func ConnectDB() {
 	URI := os.Getenv("SUPABASE_URI")
-	connection, err := gorm.Open(postgres.Open(URI), &gorm.Config{
-		SkipDefaultTransaction: true,
-	})
+	if URI == "" {
+		log.Fatal("SUPABASE_URI must be set")
+	}
+
+	conn, err := gorm.Open(postgres.New(postgres.Config{
+		DSN:                  URI,
+		PreferSimpleProtocol: true,
+	}), &gorm.Config{})
 	if err != nil {
-		log.Fatalf("Error connecting to Supabase: %v", err)
-		return err
+		panic("Failed to connect to database")
 	}
 
 	if os.Getenv("RUN_MIGRATIONS") == "true" {
 		log.Println("Running migration...")
-		err = connection.AutoMigrate(&models.User{})
+		err = conn.AutoMigrate(&models.User{})
 		if err != nil {
 			log.Fatalf("Error running migrations: %v", err)
-			return err
 		}
 	}
 
-	CONN = connection
+	Instance = conn
 
-	return nil
+	if Instance == nil {
+		log.Fatalf("Error: %v", gorm.ErrInvalidDB)
+	}
+
 }
