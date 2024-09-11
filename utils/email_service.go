@@ -61,14 +61,14 @@ func SendEmailRequestResetPassword(toEmail string, resetToken string) error {
 	from := configs.Email
 	to := toEmail
 
-	msg := fmt.Sprintf("From: %s\nTo: %s\nSubject: %s\nMIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n%s", from, to, subject, body)
+	msg := fmt.Sprintf("From: %s\nTo: %s\nSubject: %s\nMime-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n%s", from, to, subject, body)
 
 	err := smtp.SendMail(configs.SMTPADDRESS, configs.SMTPAuth, configs.Email, []string{toEmail}, []byte(msg))
 	if err != nil {
 		return err
 	}
 
-	log.Println("successful reset password request email sent")
+	log.Println("Successful reset password request email sent")
 
 	return nil
 }
@@ -86,7 +86,7 @@ func SendEmailResetPasswordSuccess(toEmail string, username string) error {
 		return err
 	}
 
-	log.Println("reset password successful email sent")
+	log.Println("Reset password successful email sent")
 
 	return nil
 }

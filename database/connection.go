@@ -22,7 +22,7 @@ func ConnectDB() {
 		PreferSimpleProtocol: true,
 	}), &gorm.Config{})
 	if err != nil {
-		panic("Failed to connect to database")
+		log.Fatal("Failed to connect to database")
 	}
 
 	if os.Getenv("RUN_MIGRATIONS") == "true" {

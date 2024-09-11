@@ -25,7 +25,7 @@ const _REQUEST_RESET_PASSWORD_HTML = `
     <div style="text-align: center; margin: 30px 0;">
       <a href="{resetURL}" style="background-color: %s; color: #DCF9F5; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Reset Password</a>
     </div>
-    <p>This link will expire in 1 hour for security reasons.</p>
+    <p>This link will expire in 15 minutes for security reasons.</p>
     <p>Best regards,<br>Fingertips</p>
   </div>
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
