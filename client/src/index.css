@@ -5,17 +5,57 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --foreground: 6 35 31;
+    --background: 242 253 251;
+    --primary: 38 220 212;
+    --secondary: 235 158 132;
+    --secondary-fade: rgba(235, 158, 132, 0.2);
+    --accent: 187 230 96;
+  }
+
+  .dark {
+    --foreground: 220 249 245;
+    --background: 2 13 11;
+    --primary: 35 215 206;
+    --secondary: 123 46 20;
+    --secondary-fade: rgba(123, 46, 20, 0.2);
+    --accent: 116 159 25;
+  }
+
   * {
     @apply m-0 p-0 scroll-smooth box-border;
   }
+
   html,
   body {
     @apply bg-background text-foreground font-poppins;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: var(--secondary-fade);
+    opacity: 0.2;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--secondary);
+    opacity: 0.8;
+    border-radius: 9999px;
+    transition: all 5s ease-out;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary);
+    opacity: 1;
   }
 }
 
 @layer utilities {
   .flex-center {
     @apply flex items-center justify-center;
+  }
+  .flex-between {
+    @apply flex items-center justify-between;
   }
 }

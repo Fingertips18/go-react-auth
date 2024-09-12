@@ -30,8 +30,6 @@ func TestEmailService(t *testing.T) {
 	})
 
 	t.Run("SendEmailRequestResetPassword_Test", func(t *testing.T) {
-		os.Setenv("CLIENT_URL", "https://example.com")
-
 		if err := SendEmailRequestResetPassword(toEmail, "reset-token"); err != nil {
 			t.Errorf("Ërror sending reset password request : %v", err)
 		} else {

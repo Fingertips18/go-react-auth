@@ -7,17 +7,29 @@ export default {
         poppins: ["Poppins", "sans-serif"],
       },
       colors: {
-        foreground: "#06231F",
-        background: "#F2FDFB",
-        primary: "#26DCD4",
-        secondary: "#EB9E84",
-        accent: "#BBE660",
-
-        "dark-foreground": "#DCF9F5",
-        "dark-background": "#020D0B",
-        "dark-primary": "#23D7CE",
-        "dark-secondary": "#7B2E14",
-        "dark-accent": "#749F19",
+        foreground: "rgb(var(--foreground))",
+        background: "rgb(var(--background))",
+        primary: "rgb(var(--primary))",
+        secondary: "rgb(var(--secondary))",
+        accent: "rgb(var(--accent))",
+      },
+      dropShadow: {
+        "foreground-glow": [
+          "0 0px 25px rgb(var(--foreground))",
+          "0 0px 50px rgb(var(--foreground))",
+        ],
+        "primary-glow": [
+          "0 0px 25px rgb(var(--primary))",
+          "0 0px 50px rgb(var(--primary))",
+        ],
+        "secondary-glow": [
+          "0 0px 25px rgb(var(--secondary))",
+          "0 0px 50px rgb(var(--secondary))",
+        ],
+        "accent-glow": [
+          "0 0px 25px rgb(var(--accent))",
+          "0 0px 50px rgb(var(--accent))",
+        ],
       },
     },
   },

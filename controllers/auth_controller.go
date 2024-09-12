@@ -19,7 +19,7 @@ func SignUp(c fiber.Ctx) error {
 		Password string `json:"password"`
 	}
 	if err := c.Bind().JSON(&data); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Fields are either invalid or missing"})
 	}
 
 	user := models.User{

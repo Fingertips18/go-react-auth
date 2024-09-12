@@ -29,25 +29,12 @@ type JWTPayload struct {
 }
 
 func TestToken(t *testing.T) {
-	envClientName := "CLIENT_URL"
-	envSecretName := "SECRET_KEY"
-	envENVName := "ENV"
-
-	// Set dummy client url
-	client := "http://client.com"
-	os.Setenv(envClientName, client)
-
-	// Set dummy secret key
-	secret := "secret"
-	os.Setenv(envSecretName, secret)
-
 	// Credentials for jwt headers
 	id := "@asd123"
 	username := "test"
 
-	// Set dummy env mode
-	env := "development"
-	os.Setenv(envENVName, env)
+	envSecretName := "SECRET_KEY"
+	secret := os.Getenv(envSecretName)
 
 	t.Run("GenerateJWTToken_Validate", func(t *testing.T) {
 		token, err := GenerateJWTToken(id, username)

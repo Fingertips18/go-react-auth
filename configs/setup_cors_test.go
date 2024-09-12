@@ -11,9 +11,7 @@ import (
 
 func TestSetupCORS(t *testing.T) {
 	envName := "CLIENT_URL"
-	testOrigin := "http://example.com"
-
-	os.Setenv(envName, testOrigin)
+	testOrigin := os.Getenv(envName)
 
 	app := fiber.New()
 	SetupCORS(app)
