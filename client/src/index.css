@@ -24,12 +24,12 @@
   }
 
   * {
-    @apply m-0 p-0 scroll-smooth box-border;
+    @apply scroll-smooth box-border;
   }
 
   html,
   body {
-    @apply bg-background text-foreground font-poppins;
+    @apply m-0 p-0 bg-background text-foreground font-poppins;
   }
 
   ::-webkit-scrollbar {

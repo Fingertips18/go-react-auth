@@ -27,8 +27,8 @@ export default {
           "0 0px 50px rgb(var(--secondary))",
         ],
         "accent-glow": [
-          "0 0px 25px rgb(var(--accent))",
-          "0 0px 50px rgb(var(--accent))",
+          "0 0px 15px rgb(var(--accent))",
+          "0 0px 60px rgb(var(--accent))",
         ],
       },
     },
