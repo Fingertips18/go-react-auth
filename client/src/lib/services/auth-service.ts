@@ -1,4 +1,5 @@
 import { SignUpDTO } from "@/lib/DTO/sign-up.dto";
+import { SignInDTO } from "@/lib/DTO/sign-in.dto";
 import { AppRoutes } from "@/constants/routes";
 
 const baseURL =
@@ -12,6 +13,13 @@ export const AuthService = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(signUp),
+    });
+  },
+  signIn: async (signIn: SignInDTO) => {
+    return await fetch(`${baseURL}${AppRoutes.SignIn}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(signIn),
     });
   },
 };

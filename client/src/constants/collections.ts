@@ -44,3 +44,24 @@ export const SIGNUPINPUTS = [
     validation: ValidateConfirmPassword,
   },
 ];
+
+export const SIGNININPUTS = [
+  {
+    name: "email",
+    label: "Email Address",
+    placeholder: "e.g. john@domain.com",
+    type: "email",
+    autoComplete: "email",
+    suffixIcon: Mail,
+    validation: ValidateEmail,
+  },
+  {
+    name: "password",
+    label: "Password",
+    placeholder: "e.g. m#P52s@ap$V",
+    type: "password",
+    autoComplete: "new-password",
+    suffixIcon: Lock,
+    validation: ValidatePassword,
+  },
+];

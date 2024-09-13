@@ -2,22 +2,22 @@ import { SwitchAuth } from "@/components/switch-auth";
 import { AppRoutes } from "@/constants/routes";
 import { Or } from "@/components/or";
 
-import { SignUpForm } from "./_components/sign-up-form";
+import { SignInForm } from "./_components/sign-in-form";
 
-const SignUpPage = () => {
+const SignInPage = () => {
   return (
     <section className="h-full flex-center flex-center flex-col gap-y-6">
-      <SignUpForm />
+      <SignInForm />
 
       <Or />
 
       <SwitchAuth
-        label="Already have an account?"
-        tag="Sign In"
-        href={AppRoutes.SignIn}
+        label="Don't have an account yet?"
+        tag="Sign Up"
+        href={AppRoutes.SignUp}
       />
     </section>
   );
 };
 
-export default SignUpPage;
+export default SignInPage;
