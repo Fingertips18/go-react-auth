@@ -6,9 +6,9 @@ import { toast } from "sonner";
 import { AuthService } from "@/lib/services/auth-service";
 import { SIGNININPUTS } from "@/constants/collections";
 import { SignInDTO } from "@/lib/DTO/sign-in.dto";
+import { Button } from "@/components/text-button";
 import { AppRoutes } from "@/constants/routes";
 import { SIGNINKEY } from "@/constants/keys";
-import { Button } from "@/components/text-button";
 import { Input } from "@/components/input";
 
 const SignInForm = () => {
@@ -21,7 +21,7 @@ const SignInForm = () => {
       toast.success("Welcome! You have signed in");
       navigate(AppRoutes.Root);
     },
-    onError: ({ message }) => toast.error(message || "Unable to login"),
+    onError: ({ message }) => toast.error(message || "Unable to sign in"),
   });
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -37,9 +37,9 @@ const SignInForm = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="p-4 lg:p-6 rounded-md border border-primary/50 bg-primary/15 drop-shadow-2xl space-y-6"
+      className="p-4 lg:p-6 w-full md:w-fit rounded-md border border-primary/50 bg-primary/15 drop-shadow-2xl space-y-4 lg:space-y-6"
     >
-      <h2 className="text-2xl font-extrabold text-center uppercase">
+      <h2 className="text-lg lg:text-2xl font-extrabold text-center uppercase">
         Access Your Account
       </h2>
 

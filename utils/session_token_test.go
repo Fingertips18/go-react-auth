@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v3"
-	"github.com/golang-jwt/jwt/v5"
 )
 
 type JWTHeader struct {
@@ -167,37 +166,6 @@ func TestToken(t *testing.T) {
 		}
 	})
 
-	t.Run("ParseCookieToken_Validate", func(t *testing.T) {
-		app, token := _HandleCookieToken(t, id, username)
-
-		// Simulate request to parse cookie token
-		req := httptest.NewRequest(http.MethodGet, "/parse-cookie", nil)
-		req.AddCookie(&http.Cookie{Name: "token", Value: token})
-		resp, err := app.Test(req)
-		if err != nil {
-			t.Fatalf("Error making parse cookie request: %v", err)
-		}
-
-		var body struct {
-			Claims *jwt.RegisteredClaims `json:"claims"`
-			Error  string                `json:"error"`
-		}
-
-		if err := json.NewDecoder(resp.Body).Decode(&body); err != nil {
-			t.Fatalf("Error decoding response body: %v", err)
-		}
-
-		if resp.StatusCode == fiber.StatusUnauthorized {
-			t.Fatalf("Error unable to parse cookie token: %v", body.Error)
-		}
-
-		if body.Claims.Issuer != id {
-			t.Errorf("Expected issuer to be %s but got %s", id, body.Claims.Issuer)
-		} else {
-			t.Logf("Issuer is %s", body.Claims.Issuer)
-		}
-	})
-
 	t.Run("GenerateResetToken_Validate", func(t *testing.T) {
 		token, err := GenerateResetToken()
 		if err != nil {
@@ -239,15 +207,6 @@ func _HandleCookieToken(t *testing.T, id string, username string) (*fiber.App, s
 	app.Get("/clear-cookie", func(c fiber.Ctx) error {
 		ClearCookieToken(c)
 		return c.SendString("Cookies cleared!")
-	})
-
-	// Define dummy route to parse cookie token
-	app.Get("/parse-cookie", func(c fiber.Ctx) error {
-		claims, err := ParseCookieToken(c)
-		if err != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": err.Error()})
-		}
-		return c.JSON(fiber.Map{"claims": claims})
 	})
 
 	return app, token

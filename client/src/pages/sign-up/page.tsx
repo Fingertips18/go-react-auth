@@ -6,7 +6,7 @@ import { SignUpForm } from "./_components/sign-up-form";
 
 const SignUpPage = () => {
   return (
-    <section className="h-full flex-center flex-center flex-col gap-y-6">
+    <section className="px-4 lg:px-0 h-full flex-center flex-center flex-col gap-y-6">
       <SignUpForm />
 
       <Or />

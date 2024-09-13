@@ -175,14 +175,15 @@ func ResendVerify(c fiber.Ctx) error {
 }
 
 func VerifyToken(c fiber.Ctx) error {
-	claims, err := utils.ParseCookieToken(c)
-	if err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Unauthorized"})
+	id := c.Locals("id").(string)
+
+	if id == "" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid id"})
 	}
 
 	var user models.User
 
-	res := database.Instance.Where("id = ?", claims.Issuer).First(&user)
+	res := database.Instance.Where("id = ?", id).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})

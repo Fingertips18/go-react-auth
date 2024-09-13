@@ -9,14 +9,22 @@ const baseURL =
 
 export const AuthService = {
   signUp: async (signUp: SignUpDTO) => {
-    return await fetch(`${baseURL}${AppRoutes.SignUp}`, {
+    const res = await fetch(`${baseURL}${AppRoutes.SignUp}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(signUp),
     });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error);
+    }
+
+    return data;
   },
   signIn: async (signIn: SignInDTO) => {
-    return await fetch(`${baseURL}${AppRoutes.SignIn}`, {
+    const res = await fetch(`${baseURL}${AppRoutes.SignIn}`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -24,10 +32,41 @@ export const AuthService = {
       },
       body: JSON.stringify(signIn),
     });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error);
+    }
+
+    return data;
   },
   signOut: async () => {
-    return await fetch(`${baseURL}${AppRoutes.SignOut}`, {
+    const res = await fetch(`${baseURL}${AppRoutes.SignOut}`, {
       method: "POST",
+      credentials: "include",
     });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+  verifyToken: async () => {
+    const res = await fetch(`${baseURL}${AppRoutes.VerifyToken}`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error);
+    }
+
+    return data;
   },
 };

@@ -77,34 +77,6 @@ func ClearCookieToken(c fiber.Ctx) {
 	c.Cookie(&cookie)
 }
 
-func ParseCookieToken(c fiber.Ctx) (*jwt.RegisteredClaims, error) {
-	tokenString := c.Cookies("token")
-
-	SECRET_KEY := os.Getenv("SECRET_KEY")
-	if SECRET_KEY == "" {
-		log.Fatal("SECRET_KEY must be set")
-	}
-
-	token, err := jwt.ParseWithClaims(tokenString, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SECRET_KEY), nil
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	claims, ok := token.Claims.(*jwt.RegisteredClaims)
-	if !ok {
-		return nil, fiber.NewError(fiber.StatusUnauthorized, "Invalid token claims")
-	}
-
-	if time.Now().After(claims.ExpiresAt.Time) {
-		return nil, fiber.NewError(fiber.StatusUnauthorized, "Invalid token")
-	}
-
-	return claims, nil
-}
-
 func GenerateResetToken() (*string, error) {
 	byteToken := make([]byte, 16)
 	_, err := rand.Read(byteToken)

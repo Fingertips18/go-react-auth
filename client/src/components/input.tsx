@@ -5,10 +5,12 @@ import {
   useState,
 } from "react";
 import { Eye, EyeOff, Info, LucideProps } from "lucide-react";
+import { Tooltip } from "react-tooltip";
 
 interface InputProps {
   name?: string;
   label: string;
+  tooltip: string;
   placeholder: string;
   type: React.HTMLInputTypeAttribute | undefined;
   autoComplete: React.HTMLInputAutoCompleteAttribute | undefined;
@@ -18,11 +20,13 @@ interface InputProps {
   disabled?: boolean;
   validation: (value: string) => boolean;
   required?: boolean;
+  maxLength?: number;
 }
 
 const Input = ({
   name,
   label,
+  tooltip,
   placeholder,
   type,
   autoComplete,
@@ -30,6 +34,7 @@ const Input = ({
   disabled,
   validation,
   required,
+  maxLength,
 }: InputProps) => {
   const [value, setValue] = useState("");
   const [obscure, setObscure] = useState(true);
@@ -51,7 +56,20 @@ const Input = ({
         >
           {label}
         </label>
-        <Info size={16} className="text-primary" />
+        <Info
+          size={16}
+          className="text-primary cursor-help"
+          data-tooltip-id={label}
+          data-tooltip-content={tooltip}
+        />
+        <Tooltip
+          id={label}
+          style={{
+            backgroundColor: "rgb(var(--primary))",
+            color: "rgb(var(--foreground))",
+            fontWeight: "bold",
+          }}
+        />
       </div>
       <div className="relative flex-center">
         <input
@@ -64,7 +82,8 @@ const Input = ({
           name={name?.toLowerCase() ?? label.toLowerCase()}
           disabled={disabled}
           required={required}
-          className={`w-full lg:w-[400px] bg-background p-2.5 rounded-lg outline-none border ring-1 focus:ring-2 transition-all placeholder-foreground/50 
+          maxLength={maxLength}
+          className={`w-full md:w-[400px] bg-background p-2.5 rounded-lg outline-none border ring-1 focus:ring-2 transition-all placeholder-foreground/50 
             px-11 disabled:bg-opacity-25 disabled:border-primary/25 disabled:text-foreground/50 disabled:pointer-events-none
             ${
               hasInput
@@ -81,7 +100,7 @@ const Input = ({
           <button
             type="button"
             onClick={() => setObscure(!obscure)}
-            className="absolute inset-y-0 right-0 flex-center pr-3"
+            className="absolute inset-y-0 right-0 flex-center pr-3 active:scale-90 transition hover:drop-shadow-primary-glow"
           >
             {obscure ? (
               <EyeOff size={24} className="text-primary" />
