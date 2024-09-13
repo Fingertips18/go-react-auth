@@ -18,8 +18,16 @@ export const AuthService = {
   signIn: async (signIn: SignInDTO) => {
     return await fetch(`${baseURL}${AppRoutes.SignIn}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(signIn),
+    });
+  },
+  signOut: async () => {
+    return await fetch(`${baseURL}${AppRoutes.SignOut}`, {
+      method: "POST",
     });
   },
 };

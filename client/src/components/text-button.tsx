@@ -1,6 +1,6 @@
 import { Loader2 } from "lucide-react";
 
-interface ButtonProps {
+interface TextButtonProps {
   label: string;
   onClick?: () => void;
   type: "submit" | "reset" | "button" | undefined;
@@ -8,7 +8,13 @@ interface ButtonProps {
   loading?: boolean;
 }
 
-const Button = ({ label, onClick, type, disabled, loading }: ButtonProps) => {
+const TextButton = ({
+  label,
+  onClick,
+  type,
+  disabled,
+  loading,
+}: TextButtonProps) => {
   return (
     <button
       type={type}
@@ -22,4 +28,4 @@ const Button = ({ label, onClick, type, disabled, loading }: ButtonProps) => {
   );
 };
 
-export { Button };
+export { TextButton as Button };

@@ -8,7 +8,7 @@ import { SIGNININPUTS } from "@/constants/collections";
 import { SignInDTO } from "@/lib/DTO/sign-in.dto";
 import { AppRoutes } from "@/constants/routes";
 import { SIGNINKEY } from "@/constants/keys";
-import { Button } from "@/components/button";
+import { Button } from "@/components/text-button";
 import { Input } from "@/components/input";
 
 const SignInForm = () => {

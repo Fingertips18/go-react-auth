@@ -1,6 +1,7 @@
 import { Moon, Sun } from "lucide-react";
 
 import { Theme, useTheme } from "@/lib/hooks/use-theme";
+import IconButton from "@/components/icon-button";
 
 const ToggleMode = () => {
   const { theme, setTheme } = useTheme();
@@ -14,12 +15,7 @@ const ToggleMode = () => {
   };
 
   return (
-    <button
-      className="w-10 h-10 rounded-full flex-center transition-colors bg-accent/40 hover:bg-accent hover:drop-shadow-accent-glow"
-      onClick={onClick}
-    >
-      {theme === Theme.Light ? <Sun size={22} /> : <Moon size={22} />}
-    </button>
+    <IconButton onClick={onClick} icon={theme === Theme.Light ? Sun : Moon} />
   );
 };
 

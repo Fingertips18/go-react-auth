@@ -8,7 +8,7 @@ import { SIGNUPINPUTS } from "@/constants/collections";
 import { SignUpDTO } from "@/lib/DTO/sign-up.dto";
 import { AppRoutes } from "@/constants/routes";
 import { SIGNUPKEY } from "@/constants/keys";
-import { Button } from "@/components/button";
+import { Button } from "@/components/text-button";
 import { Input } from "@/components/input";
 
 const SignUpForm = () => {

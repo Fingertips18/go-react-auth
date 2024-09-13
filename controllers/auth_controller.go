@@ -76,31 +76,25 @@ func SignIn(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid credentials"})
 	}
 
-	token, err := utils.GenerateJWTToken(user.ID.String(), user.Username)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-	}
-
-	utils.SetCookieToken(c, token)
-
-	user.LastSignedIn = time.Now()
-
-	if time.Now().After(*user.VerificationTokenExpiration) {
-		verificationToken := rand.Intn(9000) + 1000
-		tokenString := strconv.Itoa(verificationToken)
-		user.VerificationToken = &tokenString
-
-		if err := utils.SendEmailVerification(user.Email, user.Username, *user.VerificationToken); err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err})
+	if user.IsVerified {
+		token, err := utils.GenerateJWTToken(user.ID.String(), user.Username)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
-	}
 
-	res = database.Instance.Save(&user)
-	if res.Error != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Unable to save sign in credentials"})
-	}
+		utils.SetCookieToken(c, token)
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Sign in successful", "user": user})
+		user.LastSignedIn = time.Now()
+
+		res = database.Instance.Save(&user)
+		if res.Error != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Unable to save sign in credentials"})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Sign in successful", "user": user})
+	} else {
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"error": "User is not verified"})
+	}
 }
 
 func SignOut(c fiber.Ctx) error {
