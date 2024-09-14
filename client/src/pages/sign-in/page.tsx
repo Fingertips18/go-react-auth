@@ -6,7 +6,7 @@ import { SignInForm } from "./_components/sign-in-form";
 
 const SignInPage = () => {
   return (
-    <section className="px-4 lg:px-0 h-full flex-center flex-center flex-col gap-y-6">
+    <section className="px-4 lg:px-0 h-full flex-center flex-col gap-y-6">
       <SignInForm />
 
       <Or />

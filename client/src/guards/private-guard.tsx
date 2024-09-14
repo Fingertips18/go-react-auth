@@ -1,22 +1,31 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 import { AuthService } from "@/lib/services/auth-service";
+import { useAuthStore } from "@/lib/stores/auth-store";
 import { VERIFYTOKENKEY } from "@/constants/keys";
 import { AppRoutes } from "@/constants/routes";
 import { Loading } from "@/components/loading";
 
-const ProtectedGuard = () => {
-  const token = Cookies.get("token");
+const PrivateGuard = () => {
+  const { authorized, setAuthorized } = useAuthStore();
 
-  const { isLoading, isError } = useQuery({
+  const { isLoading, isError, isSuccess } = useQuery({
     queryKey: [VERIFYTOKENKEY],
     queryFn: AuthService.verifyToken,
-    enabled: !!token,
   });
 
-  if (!token) {
+  useEffect(() => {
+    if (isSuccess) {
+      setAuthorized(true);
+    }
+    if (isError) {
+      setAuthorized(false);
+    }
+  }, [isSuccess, isError, setAuthorized]);
+
+  if (!authorized) {
     return <Navigate to={AppRoutes.SignIn} replace />;
   }
 
@@ -31,4 +40,4 @@ const ProtectedGuard = () => {
   return <Outlet />;
 };
 
-export default ProtectedGuard;
+export default PrivateGuard;

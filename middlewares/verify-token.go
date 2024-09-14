@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	dto "github.com/Fingertips18/go-auth/DTO"
 	"github.com/gofiber/fiber/v3"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -13,7 +14,7 @@ func VerifyToken(c fiber.Ctx) error {
 	tokenString := c.Cookies("token")
 
 	if tokenString == "" {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "No token found"})
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorDTO{Error: "No token found"})
 	}
 
 	SECRET_KEY := os.Getenv("SECRET_KEY")
@@ -31,11 +32,11 @@ func VerifyToken(c fiber.Ctx) error {
 
 	claims, ok := token.Claims.(*jwt.RegisteredClaims)
 	if !ok {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid token claims"})
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorDTO{Error: "Invalid token claims"})
 	}
 
 	if time.Now().After(claims.ExpiresAt.Time) {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid or expired token"})
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorDTO{Error: "Invalid or expired token"})
 	}
 
 	c.Locals("id", claims.Issuer)

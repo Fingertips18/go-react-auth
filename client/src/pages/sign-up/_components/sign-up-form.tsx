@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 
+import { ErrorResponse } from "@/lib/classes/error-response-class";
 import { AuthService } from "@/lib/services/auth-service";
 import { SIGNUPINPUTS } from "@/constants/collections";
-import { SignUpDTO } from "@/lib/DTO/sign-up.dto";
+import { SignUpDTO } from "@/lib/DTO/sign-up-dto";
 import { Button } from "@/components/text-button";
 import { AppRoutes } from "@/constants/routes";
 import { SIGNUPKEY } from "@/constants/keys";
@@ -22,7 +23,7 @@ const SignUpForm = () => {
       toast.success("Registered successfully");
       navigate(AppRoutes.SignIn);
     },
-    onError: ({ message }) => toast.error(message || "Unable to register"),
+    onError: (error: ErrorResponse) => toast.error(error.message),
   });
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {

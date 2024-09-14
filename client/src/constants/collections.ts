@@ -29,7 +29,7 @@ export const SIGNUPINPUTS = [
     autoComplete: "email",
     suffixIcon: Mail,
     validation: ValidateEmail,
-    maxLength: 254,
+    maxLength: 320,
   },
   {
     name: "password",
@@ -67,7 +67,7 @@ export const SIGNININPUTS = [
     autoComplete: "email",
     suffixIcon: Mail,
     validation: ValidateEmail,
-    maxLength: 254,
+    maxLength: 320,
   },
   {
     name: "password",

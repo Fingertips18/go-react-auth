@@ -6,5 +6,6 @@ export enum AppRoutes {
   ForgotPassword = "/forgot-password",
   ResetPassword = "/reset-password",
   VerifyEmail = "/verify-email",
+  ResendVerify = "/resend-verify",
   VerifyToken = "/verify-token",
 }
