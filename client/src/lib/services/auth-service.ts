@@ -77,9 +77,7 @@ export const AuthService = {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        token: token,
-      }),
+      body: JSON.stringify(token),
     });
 
     const data = await res.json();
@@ -101,9 +99,7 @@ export const AuthService = {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email: email,
-      }),
+      body: JSON.stringify(email),
     });
 
     const data = await res.json();
@@ -136,6 +132,28 @@ export const AuthService = {
     return new UserResponse({
       message: data.message,
       user: data.user,
+    });
+  },
+  forgotPassword: async (email: string) => {
+    const res = await fetch(`${baseURL}${AppRoutes.ForgotPassword}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(email),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new ErrorResponse({
+        status: res.status,
+        message: data.error,
+      });
+    }
+
+    return new GenericResponse({
+      message: data.message,
     });
   },
 };

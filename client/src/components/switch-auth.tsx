@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
 
 interface SwitchAuthProps {
-  label: string;
+  label?: string;
   tag: string;
   href: string;
 }
 
 const SwitchAuth = ({ label, tag, href }: SwitchAuthProps) => {
   return (
-    <div className="p-4 w-full md:w-[400px] text-sm lg:text-base rounded-md border border-secondary/50 bg-secondary/15 drop-shadow-2xl flex-center gap-x-2">
-      <p className="font-medium">{label}</p>
+    <div
+      className="p-4 w-full text-sm lg:text-base rounded-md border border-secondary/50 bg-secondary/15 
+      drop-shadow-2xl flex-center gap-x-2"
+    >
+      {label && <p className="font-medium">{label}</p>}
       <Link
         to={href}
         className="font-bold underline-offset-4 hover:underline text-secondary transition-all hover:drop-shadow-secondary-glow"
