@@ -77,7 +77,9 @@ export const AuthService = {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(token),
+      body: JSON.stringify({
+        token: token,
+      }),
     });
 
     const data = await res.json();
@@ -99,7 +101,9 @@ export const AuthService = {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(email),
+      body: JSON.stringify({
+        email: email,
+      }),
     });
 
     const data = await res.json();
@@ -140,7 +144,9 @@ export const AuthService = {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(email),
+      body: JSON.stringify({
+        email: email,
+      }),
     });
 
     const data = await res.json();

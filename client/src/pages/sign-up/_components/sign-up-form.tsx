@@ -41,10 +41,6 @@ const SignUpForm = () => {
       onSubmit={onSubmit}
       className="p-4 lg:p-6 w-full md:w-fit rounded-md border border-primary/50 bg-primary/15 drop-shadow-2xl space-y-4 lg:space-y-6"
     >
-      <h2 className="text-lg lg:text-2xl font-extrabold text-center uppercase">
-        Create Account
-      </h2>
-
       {SIGNUPINPUTS.map((s) => (
         <Input
           key={s.label}

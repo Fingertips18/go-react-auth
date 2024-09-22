@@ -16,7 +16,7 @@ const _WELCOME_MESSAGE_HTML = `
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: %s; max-width: 600px; margin: 0 auto; padding: 20px;">
   <div style="background: linear-gradient(to right, %s, %s); padding: 20px; text-align: center;">
-    <h1 style="color: #DCF9F5; margin: 0;">Welcome Aboard!</h1>
+    <h1 style="color: #DCF9F5 !important; margin: 0;">Welcome Aboard!</h1>
   </div>
   <div style="background-color: %s; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     <p>Hello {username},</p>

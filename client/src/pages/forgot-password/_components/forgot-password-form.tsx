@@ -6,7 +6,6 @@ import { toast } from "sonner";
 
 import { GenericResponse } from "@/lib/classes/generic-response-class";
 import { ErrorResponse } from "@/lib/classes/error-response-class";
-import { ForgotPasswordDTO } from "@/lib/DTO/forgot-password-dto";
 import { AuthService } from "@/lib/services/auth-service";
 import { ValidateEmail } from "@/lib/utils/validations";
 import { FORGOTPASSWORDKEY } from "@/constants/keys";
@@ -32,11 +31,9 @@ const ForgotPasswordForm = () => {
 
     const formData = new FormData(e.currentTarget);
 
-    const forgotPasswordData = Object.fromEntries(
-      formData.entries()
-    ) as ForgotPasswordDTO;
+    const forgotPasswordData = Object.fromEntries(formData.entries());
 
-    mutate(forgotPasswordData.email);
+    mutate(forgotPasswordData["email"] as string);
   };
 
   return (
@@ -53,6 +50,7 @@ const ForgotPasswordForm = () => {
         type="email"
         autoComplete="email"
         suffixIcon={Mail}
+        disabled={isPending}
         validation={ValidateEmail}
         maxLength={320}
       />

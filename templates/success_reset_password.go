@@ -16,13 +16,13 @@ const _RESET_PASSWORD_SUCCESS_HTML = `
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: %s; max-width: 600px; margin: 0 auto; padding: 20px;">
   <div style="background: linear-gradient(to right, %s, %s); padding: 20px; text-align: center;">
-    <h1 style="color: #DCF9F5; margin: 0;">Password Reset Successful</h1>
+    <h1 style="color: #DCF9F5 !important; margin: 0;">Password Reset Successful</h1>
   </div>
   <div style="background-color: %s; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     <p>Hello {username},</p>
     <p>We're writing to confirm that your password has been successfully reset.</p>
     <div style="text-align: center; margin: 30px 0;">
-      <div style="background-color: %s; color: #DCF9F5; width: 50px; height: 50px; line-height: 50px; border-radius: 50%%; display: inline-block; font-size: 30px;">
+      <div style="background-color: %s; color: #DCF9F5 !important; width: 50px; height: 50px; line-height: 50px; border-radius: 50%%; display: inline-block; font-size: 30px;">
         ✓
       </div>
     </div>

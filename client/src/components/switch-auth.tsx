@@ -9,8 +9,8 @@ interface SwitchAuthProps {
 const SwitchAuth = ({ label, tag, href }: SwitchAuthProps) => {
   return (
     <div
-      className="p-4 w-full text-sm lg:text-base rounded-md border border-secondary/50 bg-secondary/15 
-      drop-shadow-2xl flex-center gap-x-2"
+      className="p-4 w-full text-sm lg:text-base rounded-md border 
+      border-secondary/50 bg-secondary/15 drop-shadow-2xl flex-center gap-x-2"
     >
       {label && <p className="font-medium">{label}</p>}
       <Link

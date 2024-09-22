@@ -20,7 +20,10 @@ const ResendCode = () => {
   const onClick = () => mutate(email);
 
   return (
-    <div className="flex-center gap-x-2 text-sm">
+    <div
+      className="p-4 w-full text-sm lg:text-base rounded-md border 
+    border-secondary/50 bg-secondary/15 drop-shadow-2xl flex-center gap-x-2"
+    >
       <p className="font-medium">Didn't receive a code?</p>
       <button
         className="font-bold underline-offset-4 hover:underline text-secondary transition-all hover:drop-shadow-secondary-glow"
