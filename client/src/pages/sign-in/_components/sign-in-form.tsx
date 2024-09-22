@@ -1,5 +1,5 @@
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { FormEvent } from "react";
 import { toast } from "sonner";
 
@@ -52,10 +52,6 @@ const SignInForm = () => {
       onSubmit={onSubmit}
       className="p-4 lg:p-6 w-full md:w-fit rounded-md border border-primary/50 bg-primary/15 drop-shadow-2xl space-y-4 lg:space-y-6"
     >
-      <h2 className="text-lg lg:text-2xl font-extrabold text-center uppercase">
-        Access Your Account
-      </h2>
-
       {SIGNININPUTS.map((s) => (
         <Input
           key={s.label}
@@ -65,6 +61,14 @@ const SignInForm = () => {
           validation={s.validation}
         />
       ))}
+
+      <Link
+        to={AppRoutes.ForgotPassword}
+        className="text-sm font-medium hover:underline underline-offset-4 transition-all text-foreground 
+          hover:text-primary px-1.5 inline-block text-end w-full"
+      >
+        Forgot Password?
+      </Link>
 
       <Button
         label="Sign In"

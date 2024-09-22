@@ -84,7 +84,11 @@ const VerifyEmailForm = () => {
   }, [code]);
 
   return (
-    <form ref={formRef} onSubmit={onSubmit} className="space-y-4 lg:space-y-6">
+    <form
+      ref={formRef}
+      onSubmit={onSubmit}
+      className="p-4 lg:p-6 w-full md:w-fit rounded-md border border-primary/50 bg-primary/15 drop-shadow-2xl space-y-4 lg:space-y-6"
+    >
       <div className="flex-center gap-x-4 lg:gap-x-6">
         {code.map((digit, i) => (
           <SingleInput

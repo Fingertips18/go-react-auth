@@ -138,4 +138,28 @@ export const AuthService = {
       user: data.user,
     });
   },
+  forgotPassword: async (email: string) => {
+    const res = await fetch(`${baseURL}${AppRoutes.ForgotPassword}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new ErrorResponse({
+        status: res.status,
+        message: data.error,
+      });
+    }
+
+    return new GenericResponse({
+      message: data.message,
+    });
+  },
 };

@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
+import { ForgotPasswordPage } from "@/pages/forgot-password/page";
 import VerifyEmailPage from "@/pages/verify-email/page";
 import PrivateGuard from "@/guards/private-guard";
 import { AppRoutes } from "@/constants/routes";
@@ -20,6 +21,10 @@ function App() {
           <Route path={AppRoutes.SignIn} element={<SignInPage />} />
           <Route path={AppRoutes.VerifyEmail} element={<VerifyEmailPage />} />
         </Route>
+        <Route
+          path={AppRoutes.ForgotPassword}
+          element={<ForgotPasswordPage />}
+        />
       </Routes>
     </main>
   );
