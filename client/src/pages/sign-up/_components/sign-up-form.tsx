@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import { ErrorResponse } from "@/lib/classes/error-response-class";
 import { AuthService } from "@/lib/services/auth-service";
-import { SIGNUPINPUTS } from "@/constants/collections";
+import { SIGNUP_INPUTS } from "@/constants/collections";
 import { SignUpDTO } from "@/lib/DTO/sign-up-dto";
 import { Button } from "@/components/text-button";
 import { AppRoutes } from "@/constants/routes";
@@ -41,7 +41,7 @@ const SignUpForm = () => {
       onSubmit={onSubmit}
       className="p-4 lg:p-6 w-full md:w-fit rounded-md border border-primary/50 bg-primary/15 drop-shadow-2xl space-y-4 lg:space-y-6"
     >
-      {SIGNUPINPUTS.map((s) => (
+      {SIGNUP_INPUTS.map((s) => (
         <Input
           key={s.label}
           required
