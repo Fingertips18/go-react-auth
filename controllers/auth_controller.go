@@ -256,14 +256,14 @@ func ResetPassword(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorDTO{Error: "Either password is invalid or empty"})
 	}
 
-	id := c.Params("token")
-	if id == "" {
+	token := c.Params("token")
+	if token == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorDTO{Error: "Missing token"})
 	}
 
 	var user models.User
 
-	res := database.Instance.Where("reset_password_token = ?", id).First(&user)
+	res := database.Instance.Where("reset_password_token = ?", token).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorDTO{Error: "User not found"})

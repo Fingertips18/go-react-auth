@@ -1,3 +1,6 @@
+import { SwitchAuth } from "@/components/switch-auth";
+import { AppRoutes } from "@/constants/routes";
+
 import { ResetPasswordForm } from "./_components/reset-password-form";
 
 const ResetPasswordPage = () => {
@@ -11,6 +14,8 @@ const ResetPasswordPage = () => {
       </h2>
 
       <ResetPasswordForm />
+
+      <SwitchAuth href={AppRoutes.Root} tag="Back" />
     </section>
   );
 };
