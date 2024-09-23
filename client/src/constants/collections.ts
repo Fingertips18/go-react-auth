@@ -7,7 +7,7 @@ import {
   ValidateUsername,
 } from "@/lib/utils/validations";
 
-export const SIGNUPINPUTS = [
+export const SIGNUP_INPUTS = [
   {
     name: "username",
     label: "Username",
@@ -35,7 +35,7 @@ export const SIGNUPINPUTS = [
     name: "password",
     label: "Password",
     tooltip:
-      "Create a strong password with at least 8 characters. Include a mix of uppercase letters, lowercase letters, numbers, and special characters for better security.",
+      "Create a password with at least 8 characters, including uppercase, lowercase, numbers, and special characters for security.",
     placeholder: "e.g. m#P52s@ap$V",
     type: "password",
     autoComplete: "new-password",
@@ -56,7 +56,7 @@ export const SIGNUPINPUTS = [
   },
 ];
 
-export const SIGNININPUTS = [
+export const SIGNIN_INPUTS = [
   {
     name: "email",
     label: "Email Address",
@@ -79,6 +79,43 @@ export const SIGNININPUTS = [
     autoComplete: "new-password",
     suffixIcon: Lock,
     validation: ValidatePassword,
+    maxLength: 128,
+  },
+];
+
+export const RESET_PASSWORD_INPUTS = [
+  {
+    name: "old-password",
+    label: "Old Password",
+    tooltip: "Enter your current password",
+    placeholder: "e.g. m#P52s@ap$V",
+    type: "password",
+    autoComplete: "new-password",
+    suffixIcon: Lock,
+    validation: ValidatePassword,
+    maxLength: 128,
+  },
+  {
+    name: "new-password",
+    label: "New Password",
+    tooltip:
+      "Create a password with at least 8 characters, including uppercase, lowercase, numbers, and special characters for security",
+    placeholder: "e.g. m#P52s@ap$V",
+    type: "password",
+    autoComplete: "new-password",
+    suffixIcon: Lock,
+    validation: ValidatePassword,
+    maxLength: 128,
+  },
+  {
+    label: "Confirm Password",
+    tooltip:
+      "Re-enter your password to confirm it matches the one you typed above. Ensure both passwords are identical.",
+    placeholder: "e.g. m#P52s@ap$V",
+    type: "password",
+    autoComplete: "new-password",
+    suffixIcon: Lock,
+    validation: ValidateConfirmPassword,
     maxLength: 128,
   },
 ];

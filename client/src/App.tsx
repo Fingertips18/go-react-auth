@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import { ForgotPasswordPage } from "@/pages/forgot-password/page";
+import { ResetPasswordPage } from "@/pages/reset-password/page";
 import VerifyEmailPage from "@/pages/verify-email/page";
 import PrivateGuard from "@/guards/private-guard";
 import { AppRoutes } from "@/constants/routes";
@@ -24,6 +25,10 @@ function App() {
         <Route
           path={AppRoutes.ForgotPassword}
           element={<ForgotPasswordPage />}
+        />
+        <Route
+          path={`${AppRoutes.ResetPassword}/:token`}
+          element={<ResetPasswordPage />}
         />
       </Routes>
     </main>

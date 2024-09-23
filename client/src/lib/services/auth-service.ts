@@ -4,6 +4,7 @@ import { UserResponse } from "@/lib/classes/user-response-class";
 import { SignUpDTO } from "@/lib/DTO/sign-up-dto";
 import { SignInDTO } from "@/lib/DTO/sign-in-dto";
 import { AppRoutes } from "@/constants/routes";
+import { ResetDTO } from "../DTO/reset-dto";
 
 const baseURL =
   import.meta.env.VITE_ENV === "development"
@@ -148,6 +149,33 @@ export const AuthService = {
         email: email,
       }),
     });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new ErrorResponse({
+        status: res.status,
+        message: data.error,
+      });
+    }
+
+    return new GenericResponse({
+      message: data.message,
+    });
+  },
+  resetPassword: async (reset: ResetDTO) => {
+    const res = await fetch(
+      `${baseURL}${AppRoutes.ResetPassword}/${reset.token}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: reset.password,
+        }),
+      }
+    );
 
     const data = await res.json();
 

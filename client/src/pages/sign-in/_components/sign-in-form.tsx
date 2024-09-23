@@ -7,7 +7,7 @@ import { GenericResponse } from "@/lib/classes/generic-response-class";
 import { ErrorResponse } from "@/lib/classes/error-response-class";
 import { AuthService } from "@/lib/services/auth-service";
 import { useAuthStore } from "@/lib/stores/auth-store";
-import { SIGNININPUTS } from "@/constants/collections";
+import { SIGNIN_INPUTS } from "@/constants/collections";
 import { SignInDTO } from "@/lib/DTO/sign-in-dto";
 import { Button } from "@/components/text-button";
 import { AppRoutes } from "@/constants/routes";
@@ -52,13 +52,13 @@ const SignInForm = () => {
       onSubmit={onSubmit}
       className="p-4 lg:p-6 w-full md:w-fit rounded-md border border-primary/50 bg-primary/15 drop-shadow-2xl space-y-4 lg:space-y-6"
     >
-      {SIGNININPUTS.map((s) => (
+      {SIGNIN_INPUTS.map((i) => (
         <Input
-          key={s.label}
+          key={i.label}
           required
           disabled={isPending}
-          {...s}
-          validation={s.validation}
+          {...i}
+          validation={i.validation}
         />
       ))}
 
