@@ -17,7 +17,6 @@ import { Input } from "@/components/input";
 const SignInForm = () => {
   const navigate = useNavigate();
   const { setEmail, setAuthorized } = useAuthStore();
-
   const { mutate, isPending } = useMutation({
     mutationKey: [SIGNINKEY],
     mutationFn: AuthService.signIn,
@@ -26,7 +25,23 @@ const SignInForm = () => {
       setAuthorized(true);
     },
     onError: (error: ErrorResponse) => {
-      toast.error("Please verify to sign in");
+      toast.error("Please verify to sign in. Didn't get the code?", {
+        className: "gap-x-4",
+        actionButtonStyle: {
+          background: "rgb(var(--accent))",
+          color: "rgb(var(--foreground))",
+          padding: "16px",
+          marginLeft: "16px",
+          filter: `
+            drop-shadow(0 0px 25px rgb(var(--accent))) 
+            drop-shadow(0 0px 50px rgb(var(--accent)))
+          `,
+        },
+        action: {
+          label: "Resend",
+          onClick: () => navigate(AppRoutes.ResendVerify),
+        },
+      });
 
       if (error.status == 403) {
         navigate(AppRoutes.VerifyEmail);

@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 
 import { ForgotPasswordPage } from "@/pages/forgot-password/page";
 import { ResetPasswordPage } from "@/pages/reset-password/page";
+import { ResendVerifyPage } from "@/pages/resend-verify/page";
 import VerifyEmailPage from "@/pages/verify-email/page";
 import PrivateGuard from "@/guards/private-guard";
 import { AppRoutes } from "@/constants/routes";
@@ -21,6 +22,7 @@ function App() {
           <Route path={AppRoutes.SignUp} element={<SignUpPage />} />
           <Route path={AppRoutes.SignIn} element={<SignInPage />} />
           <Route path={AppRoutes.VerifyEmail} element={<VerifyEmailPage />} />
+          <Route path={AppRoutes.ResendVerify} element={<ResendVerifyPage />} />
         </Route>
         <Route
           path={AppRoutes.ForgotPassword}
