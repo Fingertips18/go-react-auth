@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { ErrorResponse } from "@/lib/classes/error-response-class";
 import { AuthService } from "@/lib/services/auth-service";
 import { SIGNUP_INPUTS } from "@/constants/collections";
+import { useAuthStore } from "@/lib/stores/auth-store";
 import { SignUpDTO } from "@/lib/DTO/sign-up-dto";
 import { Button } from "@/components/text-button";
 import { AppRoutes } from "@/constants/routes";
@@ -13,6 +14,7 @@ import { SIGNUPKEY } from "@/constants/keys";
 import { Input } from "@/components/input";
 
 const SignUpForm = () => {
+  const { setLoading: setGlobalLoading } = useAuthStore();
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
@@ -21,9 +23,13 @@ const SignUpForm = () => {
     mutationFn: AuthService.signUp,
     onSuccess: () => {
       toast.success("Registered successfully");
+      setGlobalLoading(false);
       navigate(AppRoutes.SignIn);
     },
-    onError: (error: ErrorResponse) => toast.error(error.message),
+    onError: (error: ErrorResponse) => {
+      toast.error(error.message);
+      setGlobalLoading(false);
+    },
   });
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -32,6 +38,8 @@ const SignUpForm = () => {
     const formData = new FormData(e.currentTarget);
 
     const signUpData = Object.fromEntries(formData.entries()) as SignUpDTO;
+
+    setGlobalLoading(true);
 
     mutate(signUpData);
   };
