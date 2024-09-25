@@ -172,7 +172,8 @@ export const AuthService = {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          password: reset.password,
+          old_password: reset.oldpassword,
+          new_password: reset.newpassword,
         }),
       }
     );

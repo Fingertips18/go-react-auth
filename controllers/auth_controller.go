@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
@@ -250,10 +251,11 @@ func ForgotPassword(c fiber.Ctx) error {
 
 func ResetPassword(c fiber.Ctx) error {
 	var data struct {
-		Password string `json:"password"`
+		OldPassword string `json:"old_password"`
+		NewPassword string `json:"new_password"`
 	}
 	if err := c.Bind().JSON(&data); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorDTO{Error: "Either password is invalid or empty"})
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorDTO{Error: "Old or new password is either invalid or empty"})
 	}
 
 	token := c.Params("token")
@@ -271,7 +273,14 @@ func ResetPassword(c fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: res.Error.Error()})
 	}
 
-	password, err := utils.HashPassword(data.Password)
+	fmt.Println("Password", user.Password)
+	fmt.Println("Old Password", data.OldPassword)
+
+	if err := utils.VerifyPassword([]byte(user.Password), []byte(data.OldPassword)); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorDTO{Error: "Password did not match"})
+	}
+
+	password, err := utils.HashPassword(data.NewPassword)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorDTO{Error: err.Error()})
 	}
