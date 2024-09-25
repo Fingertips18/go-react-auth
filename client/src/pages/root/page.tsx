@@ -1,12 +1,13 @@
+import { Footer } from "./_components/footer";
 import { Header } from "./_components/header";
+import { Content } from "./_components/content";
 
 const RootPage = () => {
   return (
     <>
       <Header />
-      <section className="h-full flex-center">
-        <h1 className="font-bold text-2xl">Root Page</h1>
-      </section>
+      <Content />
+      <Footer />
     </>
   );
 };

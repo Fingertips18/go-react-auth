@@ -1,5 +1,5 @@
 export type ResetDTO = {
   token: string;
-  oldpassword: string;
-  newpassword: string;
+  old_password: string;
+  new_password: string;
 };

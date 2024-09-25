@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 
+import { GenericResponse } from "@/lib/classes/generic-response-class";
 import { ErrorResponse } from "@/lib/classes/error-response-class";
 import { AuthService } from "@/lib/services/auth-service";
 import { SIGNUP_INPUTS } from "@/constants/collections";
@@ -21,8 +22,8 @@ const SignUpForm = () => {
   const { mutate, isPending } = useMutation({
     mutationKey: [SIGNUPKEY],
     mutationFn: AuthService.signUp,
-    onSuccess: () => {
-      toast.success("Registered successfully");
+    onSuccess: (res: GenericResponse) => {
+      toast.success(res.message);
       setGlobalLoading(false);
       navigate(AppRoutes.SignIn);
     },

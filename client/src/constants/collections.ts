@@ -85,7 +85,7 @@ export const SIGNIN_INPUTS = [
 
 export const RESET_PASSWORD_INPUTS = [
   {
-    name: "oldPassword",
+    name: "old-password",
     label: "Old Password",
     tooltip: "Enter your current password",
     placeholder: "e.g. m#P52s@ap$V",
@@ -96,7 +96,7 @@ export const RESET_PASSWORD_INPUTS = [
     maxLength: 128,
   },
   {
-    name: "newPassword",
+    name: "new-password",
     label: "New Password",
     tooltip:
       "Create a password with at least 8 characters, including uppercase, lowercase, numbers, and special characters for security",
