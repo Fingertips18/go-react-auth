@@ -6,8 +6,8 @@ import { toast } from "sonner";
 import { GenericResponse } from "@/lib/classes/generic-response-class";
 import { ErrorResponse } from "@/lib/classes/error-response-class";
 import { AuthService } from "@/lib/services/auth-service";
-import { useAuthStore } from "@/lib/stores/auth-store";
 import { SIGNIN_INPUTS } from "@/constants/collections";
+import { useAuthStore } from "@/lib/stores/auth-store";
 import { SignInDTO } from "@/lib/DTO/sign-in-dto";
 import { Button } from "@/components/text-button";
 import { AppRoutes } from "@/constants/routes";
@@ -25,28 +25,13 @@ const SignInForm = () => {
       setAuthorized(true);
     },
     onError: (error: ErrorResponse) => {
-      toast.error("Please verify to sign in. Didn't get the code?", {
-        className: "gap-x-4",
-        actionButtonStyle: {
-          background: "rgb(var(--accent))",
-          color: "rgb(var(--foreground))",
-          padding: "16px",
-          marginLeft: "16px",
-          filter: `
-            drop-shadow(0 0px 25px rgb(var(--accent))) 
-            drop-shadow(0 0px 50px rgb(var(--accent)))
-          `,
-        },
-        action: {
-          label: "Resend",
-          onClick: () => navigate(AppRoutes.ResendVerify),
-        },
-      });
-
       if (error.status == 403) {
+        toast.error("Please verify to sign in");
         navigate(AppRoutes.VerifyEmail);
+      } else {
+        toast.error(error.message);
+        setAuthorized(false);
       }
-      setAuthorized(false);
     },
   });
 

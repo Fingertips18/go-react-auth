@@ -55,7 +55,7 @@ const ResetPasswordForm = () => {
           disabled={isPending}
           {...r}
           validation={(value) => {
-            if (r.name === "new-password") {
+            if (r.name === "newPassword") {
               setConfirmPassword(value);
             }
             if (r.name === undefined) {
