@@ -7,21 +7,28 @@ import { GenericResponse } from "@/lib/classes/generic-response-class";
 import { ErrorResponse } from "@/lib/classes/error-response-class";
 import { AuthService } from "@/lib/services/auth-service";
 import { ValidateEmail } from "@/lib/utils/validations";
+import { useAuthStore } from "@/lib/stores/auth-store";
 import { FORGOTPASSWORDKEY } from "@/constants/keys";
 import { Button } from "@/components/text-button";
 import { Input } from "@/components/input";
 
 const ForgotPasswordForm = () => {
+  const { setLoading: setGlobalLoading } = useAuthStore();
   const [submitted, setSubmitted] = useState(false);
   const [email, setEmail] = useState("");
+
   const { mutate, isPending } = useMutation({
     mutationKey: [FORGOTPASSWORDKEY],
     mutationFn: AuthService.forgotPassword,
     onSuccess: (res: GenericResponse) => {
       toast.success(res.message);
       setSubmitted(true);
+      setGlobalLoading(false);
     },
-    onError: (error: ErrorResponse) => toast.error(error.message),
+    onError: (error: ErrorResponse) => {
+      toast.error(error.message);
+      setGlobalLoading(false);
+    },
   });
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -34,6 +41,7 @@ const ForgotPasswordForm = () => {
     const emailData = forgotPasswordData["email"] as string;
 
     setEmail(emailData);
+    setGlobalLoading(true);
 
     mutate(emailData);
   };

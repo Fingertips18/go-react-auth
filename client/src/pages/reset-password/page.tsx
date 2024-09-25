@@ -1,8 +1,7 @@
-import { SwitchAuth } from "@/components/switch-auth";
 import { AuthTitle } from "@/components/auth-title";
-import { AppRoutes } from "@/constants/routes";
 
 import { ResetPasswordForm } from "./_components/reset-password-form";
+import { ResetPasswordBack } from "./_components/reset-password-back";
 
 const ResetPasswordPage = () => {
   return (
@@ -11,7 +10,7 @@ const ResetPasswordPage = () => {
 
       <ResetPasswordForm />
 
-      <SwitchAuth href={AppRoutes.Root} tag="Back" />
+      <ResetPasswordBack />
     </section>
   );
 };

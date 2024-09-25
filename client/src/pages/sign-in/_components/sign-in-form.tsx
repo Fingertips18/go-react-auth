@@ -16,21 +16,29 @@ import { Input } from "@/components/input";
 
 const SignInForm = () => {
   const navigate = useNavigate();
-  const { setEmail, setAuthorized } = useAuthStore();
+  const {
+    setEmail,
+    setAuthorized,
+    setLoading: setGlobalLoading,
+  } = useAuthStore();
+
   const { mutate, isPending } = useMutation({
     mutationKey: [SIGNINKEY],
     mutationFn: AuthService.signIn,
     onSuccess: (res: GenericResponse) => {
       toast.success(res.message);
       setAuthorized(true);
+      setGlobalLoading(false);
     },
     onError: (error: ErrorResponse) => {
       if (error.status == 403) {
         toast.error("Please verify to sign in");
+        setGlobalLoading(false);
         navigate(AppRoutes.VerifyEmail);
       } else {
         toast.error(error.message);
         setAuthorized(false);
+        setGlobalLoading(false);
       }
     },
   });
@@ -43,6 +51,7 @@ const SignInForm = () => {
     const signInData = Object.fromEntries(formData.entries()) as SignInDTO;
 
     setEmail(signInData.email);
+    setGlobalLoading(true);
 
     mutate(signInData);
   };

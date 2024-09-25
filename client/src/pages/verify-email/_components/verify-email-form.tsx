@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { GenericResponse } from "@/lib/classes/generic-response-class";
 import { ErrorResponse } from "@/lib/classes/error-response-class";
 import { AuthService } from "@/lib/services/auth-service";
+import { useAuthStore } from "@/lib/stores/auth-store";
 import { Button } from "@/components/text-button";
 import { VERIFYEMAILKEY } from "@/constants/keys";
 import { AppRoutes } from "@/constants/routes";
@@ -13,6 +14,8 @@ import { AppRoutes } from "@/constants/routes";
 import { SingleInput } from "./single-input";
 
 const VerifyEmailForm = () => {
+  const { loading: globalLoading, setLoading: setGlobalLoading } =
+    useAuthStore();
   const [code, setCode] = useState(["", "", "", ""]);
   const inputRef = useRef<HTMLInputElement[]>([]);
   const formRef = useRef<HTMLFormElement>(null);
@@ -23,9 +26,13 @@ const VerifyEmailForm = () => {
     mutationFn: AuthService.verifyEmail,
     onSuccess: (res: GenericResponse) => {
       toast.success(res.message);
+      setGlobalLoading(false);
       navigate(AppRoutes.SignIn);
     },
-    onError: (error: ErrorResponse) => toast.error(error.message),
+    onError: (error: ErrorResponse) => {
+      toast.error(error.message);
+      setGlobalLoading(false);
+    },
   });
 
   const onChange = (value: string, index: number) => {
@@ -73,6 +80,8 @@ const VerifyEmailForm = () => {
 
     const verificationCode = code.join("");
 
+    setGlobalLoading(true);
+
     mutate(verificationCode);
   };
 
@@ -82,6 +91,8 @@ const VerifyEmailForm = () => {
       formRef.current?.dispatchEvent(event);
     }
   }, [code]);
+
+  const loading = isPending || globalLoading;
 
   return (
     <form
@@ -102,15 +113,15 @@ const VerifyEmailForm = () => {
             digit={digit}
             onChange={(e) => onChange(e.target.value, i)}
             onKeyDown={(e) => onKeyDown(e, i)}
-            disabled={isPending}
+            disabled={loading}
           />
         ))}
       </div>
       <Button
         label="Verify Email"
         type="submit"
-        disabled={isPending}
-        loading={isPending}
+        disabled={loading}
+        loading={loading}
       />
     </form>
   );

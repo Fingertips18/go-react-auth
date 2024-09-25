@@ -7,6 +7,7 @@ import { GenericResponse } from "@/lib/classes/generic-response-class";
 import { ErrorResponse } from "@/lib/classes/error-response-class";
 import { RESET_PASSWORD_INPUTS } from "@/constants/collections";
 import { AuthService } from "@/lib/services/auth-service";
+import { useAuthStore } from "@/lib/stores/auth-store";
 import { RESETPASSWORDKEY } from "@/constants/keys";
 import { Button } from "@/components/text-button";
 import { AppRoutes } from "@/constants/routes";
@@ -14,17 +15,23 @@ import { ResetDTO } from "@/lib/DTO/reset-dto";
 import { Input } from "@/components/input";
 
 const ResetPasswordForm = () => {
+  const { setLoading: setGlobalLoading } = useAuthStore();
   const navigate = useNavigate();
   const { token } = useParams();
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const { mutate, isPending } = useMutation({
     mutationKey: [RESETPASSWORDKEY],
     mutationFn: AuthService.resetPassword,
     onSuccess: (res: GenericResponse) => {
       toast.success(res.message);
+      setGlobalLoading(false);
       navigate(AppRoutes.SignIn);
     },
-    onError: (error: ErrorResponse) => toast.error(error.message),
+    onError: (error: ErrorResponse) => {
+      toast.error(error.message);
+      setGlobalLoading(false);
+    },
   });
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -39,6 +46,8 @@ const ResetPasswordForm = () => {
     ) as ResetDTO;
 
     resetPasswordData.token = token;
+
+    setGlobalLoading(true);
 
     mutate(resetPasswordData);
   };

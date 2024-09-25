@@ -1,7 +1,7 @@
-import { SwitchAuth } from "@/components/switch-auth";
-import { ForgotPasswordForm } from "./_components/forgot-password-form";
-import { AppRoutes } from "@/constants/routes";
 import { AuthTitle } from "@/components/auth-title";
+
+import { ForgotPasswordForm } from "./_components/forgot-password-form";
+import { ForgotPasswordBack } from "./_components/forgot-password-back";
 
 const ForgotPasswordPage = () => {
   return (
@@ -13,7 +13,7 @@ const ForgotPasswordPage = () => {
 
       <ForgotPasswordForm />
 
-      <SwitchAuth href={AppRoutes.Root} tag="Back" />
+      <ForgotPasswordBack />
     </section>
   );
 };

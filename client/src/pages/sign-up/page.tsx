@@ -1,8 +1,7 @@
-import { SwitchAuth } from "@/components/switch-auth";
 import { AuthTitle } from "@/components/auth-title";
-import { AppRoutes } from "@/constants/routes";
 import { Or } from "@/components/or";
 
+import { AlreadyHaveAccount } from "./_components/already-have-account";
 import { SignUpForm } from "./_components/sign-up-form";
 
 const SignUpPage = () => {
@@ -14,11 +13,7 @@ const SignUpPage = () => {
 
       <Or />
 
-      <SwitchAuth
-        label="Already have an account?"
-        tag="Sign In"
-        href={AppRoutes.SignIn}
-      />
+      <AlreadyHaveAccount />
     </section>
   );
 };

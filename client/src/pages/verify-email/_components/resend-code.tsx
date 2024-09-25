@@ -8,16 +8,31 @@ import { useAuthStore } from "@/lib/stores/auth-store";
 import { RESENDVERIFYKEY } from "@/constants/keys";
 
 const ResendCode = () => {
-  const { email } = useAuthStore();
+  const {
+    email,
+    loading: globalLoading,
+    setLoading: setGlobalLoading,
+  } = useAuthStore();
 
   const { mutate, isPending } = useMutation({
     mutationKey: [RESENDVERIFYKEY],
     mutationFn: AuthService.resendVerify,
-    onSuccess: (res: GenericResponse) => toast.success(res.message),
-    onError: (error: ErrorResponse) => toast.error(error.message),
+    onSuccess: (res: GenericResponse) => {
+      toast.success(res.message);
+      setGlobalLoading(false);
+    },
+    onError: (error: ErrorResponse) => {
+      toast.error(error.message);
+      setGlobalLoading(false);
+    },
   });
 
-  const onClick = () => mutate(email);
+  const onClick = () => {
+    setGlobalLoading(true);
+    mutate(email);
+  };
+
+  const loading = isPending || globalLoading;
 
   return (
     <div
@@ -30,9 +45,9 @@ const ResendCode = () => {
           disabled:text-secondary/50 disabled:pointer-events-none"
         type="button"
         onClick={onClick}
-        disabled={isPending}
+        disabled={loading}
       >
-        {isPending ? "Resending..." : "Resend"}
+        {loading ? "Resending..." : "Resend"}
       </button>
     </div>
   );

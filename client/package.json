@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "go-react-auth-client",
   "private": true,
   "version": "1.0.0",
   "type": "module",

@@ -4,9 +4,10 @@ interface SwitchAuthProps {
   label?: string;
   tag: string;
   href: string;
+  disabled?: boolean;
 }
 
-const SwitchAuth = ({ label, tag, href }: SwitchAuthProps) => {
+const SwitchAuth = ({ label, tag, href, disabled }: SwitchAuthProps) => {
   return (
     <div
       className="p-4 w-full text-sm lg:text-base rounded-md border 
@@ -15,7 +16,10 @@ const SwitchAuth = ({ label, tag, href }: SwitchAuthProps) => {
       {label && <p className="font-medium">{label}</p>}
       <Link
         to={href}
-        className="font-bold underline-offset-4 hover:underline text-secondary transition-all hover:drop-shadow-secondary-glow"
+        replace
+        className={`font-bold underline-offset-4 hover:underline transition-all hover:drop-shadow-secondary-glow
+          ${disabled} ? "text-secondary/50 pointer-events-none" : "text-secondary"
+          `}
       >
         {tag}
       </Link>
