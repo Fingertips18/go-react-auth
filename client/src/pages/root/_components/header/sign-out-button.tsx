@@ -4,18 +4,21 @@ import { toast } from "sonner";
 
 import { GenericResponse } from "@/lib/classes/generic-response-class";
 import { AuthService } from "@/lib/services/auth-service";
+import { useUserStore } from "@/lib/stores/user-store";
 import { useAuthStore } from "@/lib/stores/auth-store";
 import IconButton from "@/components/icon-button";
 import { SIGNOUTKEY } from "@/constants/keys";
 
 const SignOutButton = () => {
   const { setAuthorized } = useAuthStore();
+  const { setUser } = useUserStore();
 
   const { mutate, isPending } = useMutation({
     mutationKey: [SIGNOUTKEY],
     mutationFn: AuthService.signOut,
     onSuccess: (res: GenericResponse) => {
       toast.success(res.message);
+      setUser(undefined);
       setAuthorized(false);
     },
     onError: ({ message }) => toast.error(message),

@@ -41,11 +41,13 @@ const ResetPasswordForm = () => {
 
     const formData = new FormData(e.currentTarget);
 
-    const resetPasswordData = Object.fromEntries(
-      formData.entries()
-    ) as ResetDTO;
+    const resetPasswordData: ResetDTO = {
+      token: token,
+      old_password: formData.get("old-password") as string,
+      new_password: formData.get("new-password") as string,
+    };
 
-    resetPasswordData.token = token;
+    console.log(resetPasswordData);
 
     setGlobalLoading(true);
 

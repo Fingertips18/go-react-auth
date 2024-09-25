@@ -1,9 +1,9 @@
-interface AuthTitleProps {
+interface TitleProps {
   title: string;
   body?: string;
 }
 
-const AuthTitle = ({ title, body }: AuthTitleProps) => {
+const Title = ({ title, body }: TitleProps) => {
   return (
     <div className="w-full rounded-md border border-primary/50 bg-primary/15 drop-shadow-2xl">
       <h2
@@ -24,4 +24,4 @@ const AuthTitle = ({ title, body }: AuthTitleProps) => {
   );
 };
 
-export { AuthTitle };
+export { Title };

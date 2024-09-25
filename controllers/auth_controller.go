@@ -53,12 +53,7 @@ func SignUp(c fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: err.Error()})
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(
-		dto.UserDTO{
-			Message: "User created successfully",
-			User:    user,
-		},
-	)
+	return c.Status(fiber.StatusCreated).JSON(dto.GenericDTO{Message: "User created successfully"})
 }
 
 func SignIn(c fiber.Ctx) error {
@@ -98,7 +93,10 @@ func SignIn(c fiber.Ctx) error {
 			return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: "Unable to save sign in credentials"})
 		}
 
-		return c.Status(fiber.StatusOK).JSON(dto.GenericDTO{Message: "Sign in successful"})
+		return c.Status(fiber.StatusOK).JSON(dto.UserDTO{
+			Message: "Sign in successful",
+			User:    user,
+		})
 	} else {
 		return c.Status(fiber.StatusForbidden).JSON(dto.ErrorDTO{Error: "User is not verified"})
 	}

@@ -3,11 +3,12 @@ import { useMutation } from "@tanstack/react-query";
 import { FormEvent } from "react";
 import { toast } from "sonner";
 
-import { GenericResponse } from "@/lib/classes/generic-response-class";
 import { ErrorResponse } from "@/lib/classes/error-response-class";
+import { UserResponse } from "@/lib/classes/user-response-class";
 import { AuthService } from "@/lib/services/auth-service";
 import { SIGNIN_INPUTS } from "@/constants/collections";
 import { useAuthStore } from "@/lib/stores/auth-store";
+import { useUserStore } from "@/lib/stores/user-store";
 import { SignInDTO } from "@/lib/DTO/sign-in-dto";
 import { Button } from "@/components/text-button";
 import { AppRoutes } from "@/constants/routes";
@@ -21,22 +22,26 @@ const SignInForm = () => {
     setAuthorized,
     setLoading: setGlobalLoading,
   } = useAuthStore();
+  const { setUser } = useUserStore();
 
   const { mutate, isPending } = useMutation({
     mutationKey: [SIGNINKEY],
     mutationFn: AuthService.signIn,
-    onSuccess: (res: GenericResponse) => {
+    onSuccess: (res: UserResponse) => {
       toast.success(res.message);
+      setUser(res.user);
       setAuthorized(true);
       setGlobalLoading(false);
     },
     onError: (error: ErrorResponse) => {
       if (error.status == 403) {
         toast.error("Please verify to sign in");
+        setUser(undefined);
         setGlobalLoading(false);
         navigate(AppRoutes.VerifyEmail);
       } else {
         toast.error(error.message);
+        setUser(undefined);
         setAuthorized(false);
         setGlobalLoading(false);
       }

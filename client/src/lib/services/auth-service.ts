@@ -4,7 +4,7 @@ import { UserResponse } from "@/lib/classes/user-response-class";
 import { SignUpDTO } from "@/lib/DTO/sign-up-dto";
 import { SignInDTO } from "@/lib/DTO/sign-in-dto";
 import { AppRoutes } from "@/constants/routes";
-import { ResetDTO } from "../DTO/reset-dto";
+import { ResetDTO } from "@/lib/DTO/reset-dto";
 
 const baseURL =
   import.meta.env.VITE_ENV === "development"
@@ -28,9 +28,8 @@ export const AuthService = {
       });
     }
 
-    return new UserResponse({
+    return new GenericResponse({
       message: data.message,
-      user: data.user,
     });
   },
   signIn: async (signIn: SignInDTO) => {
@@ -52,8 +51,9 @@ export const AuthService = {
       });
     }
 
-    return new GenericResponse({
+    return new UserResponse({
       message: data.message,
+      user: data.user,
     });
   },
   signOut: async () => {
@@ -172,8 +172,8 @@ export const AuthService = {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          old_password: reset.oldpassword,
-          new_password: reset.newpassword,
+          old_password: reset.old_password,
+          new_password: reset.new_password,
         }),
       }
     );

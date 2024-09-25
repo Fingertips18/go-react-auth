@@ -18,7 +18,11 @@ const SwitchAuth = ({ label, tag, href, disabled }: SwitchAuthProps) => {
         to={href}
         replace
         className={`font-bold underline-offset-4 hover:underline transition-all hover:drop-shadow-secondary-glow
-          ${disabled} ? "text-secondary/50 pointer-events-none" : "text-secondary"
+          ${
+            disabled
+              ? "text-secondary/50 pointer-events-none"
+              : "text-secondary"
+          } 
           `}
       >
         {tag}
