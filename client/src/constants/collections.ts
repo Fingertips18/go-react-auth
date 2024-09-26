@@ -11,7 +11,7 @@ export const SIGNUP_INPUTS = [
   {
     name: "username",
     label: "Username",
-    tooltip: "Choose a username between 3 and 20 characters.",
+    tooltip: "Must be between 3 and 20 characters.",
     placeholder: "e.g. john doe",
     type: "text",
     autoComplete: "username",
@@ -22,8 +22,7 @@ export const SIGNUP_INPUTS = [
   {
     name: "email",
     label: "Email Address",
-    tooltip:
-      "Please enter a valid email address. Ensure it includes an '@' symbol and a domain name.",
+    tooltip: "Valid email address includes an '@' symbol and a domain name.",
     placeholder: "e.g. john@domain.com",
     type: "email",
     autoComplete: "email",
@@ -35,7 +34,7 @@ export const SIGNUP_INPUTS = [
     name: "password",
     label: "Password",
     tooltip:
-      "Create a password with at least 8 characters, including uppercase, lowercase, numbers, and special characters for security.",
+      "At least 8 characters. Include a mix of uppercase & lowercase letters, numbers, and special characters.",
     placeholder: "e.g. m#P52s@ap$V",
     type: "password",
     autoComplete: "new-password",
@@ -46,7 +45,7 @@ export const SIGNUP_INPUTS = [
   {
     label: "Confirm Password",
     tooltip:
-      "Re-enter your password to confirm it matches the one you typed above. Ensure both passwords are identical.",
+      "Re-enter your password to confirm. Ensure both passwords are identical.",
     placeholder: "e.g. m#P52s@ap$V",
     type: "password",
     autoComplete: "new-password",
@@ -60,8 +59,7 @@ export const SIGNIN_INPUTS = [
   {
     name: "email",
     label: "Email Address",
-    tooltip:
-      "Please enter a valid email address. Ensure it includes an '@' symbol and a domain name.",
+    tooltip: "Valid email address includes an '@' symbol and a domain name.",
     placeholder: "e.g. john@domain.com",
     type: "email",
     autoComplete: "email",
@@ -73,7 +71,7 @@ export const SIGNIN_INPUTS = [
     name: "password",
     label: "Password",
     tooltip:
-      "Create a strong password with at least 8 characters. Include a mix of uppercase letters, lowercase letters, numbers, and special characters for better security.",
+      "At least 8 characters. Include a mix of uppercase & lowercase letters, numbers, and special characters.",
     placeholder: "e.g. m#P52s@ap$V",
     type: "password",
     autoComplete: "new-password",
@@ -99,7 +97,7 @@ export const RESET_PASSWORD_INPUTS = [
     name: "new-password",
     label: "New Password",
     tooltip:
-      "Create a password with at least 8 characters, including uppercase, lowercase, numbers, and special characters for security",
+      "At least 8 characters. Include a mix of uppercase & lowercase letters, numbers, and special characters.",
     placeholder: "e.g. m#P52s@ap$V",
     type: "password",
     autoComplete: "new-password",
@@ -110,7 +108,7 @@ export const RESET_PASSWORD_INPUTS = [
   {
     label: "Confirm Password",
     tooltip:
-      "Re-enter your password to confirm it matches the one you typed above. Ensure both passwords are identical.",
+      "Re-enter your password to confirm. Ensure both passwords are identical.",
     placeholder: "e.g. m#P52s@ap$V",
     type: "password",
     autoComplete: "new-password",

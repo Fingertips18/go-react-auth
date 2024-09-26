@@ -5,7 +5,8 @@ import {
   useState,
 } from "react";
 import { Eye, EyeOff, Info, LucideProps } from "lucide-react";
-import { Tooltip } from "react-tooltip";
+
+import { Hint } from "./hint";
 
 interface InputProps {
   name?: string;
@@ -56,20 +57,10 @@ const Input = ({
         >
           {label}
         </label>
-        <Info
-          size={16}
-          className="text-primary cursor-help"
-          data-tooltip-id={label}
-          data-tooltip-content={tooltip}
-        />
-        <Tooltip
-          id={label}
-          style={{
-            backgroundColor: "rgb(var(--primary))",
-            color: "rgb(var(--foreground))",
-            fontWeight: "bold",
-          }}
-        />
+        <a data-tooltip-id={label} className="cursor-pointer">
+          <Info size={16} className="text-primary pointer-events-none" />
+        </a>
+        <Hint id={label} content={tooltip} />
       </div>
       <div className="relative flex-center">
         <input
