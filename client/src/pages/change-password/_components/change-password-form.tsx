@@ -1,5 +1,5 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 
@@ -8,25 +8,26 @@ import { ErrorResponse } from "@/lib/classes/error-response-class";
 import { RESET_PASSWORD_INPUTS } from "@/constants/collections";
 import { AuthService } from "@/lib/services/auth-service";
 import { useAuthStore } from "@/lib/stores/auth-store";
-import { RESETPASSWORDKEY } from "@/constants/keys";
+import { useUserStore } from "@/lib/stores/user-store";
+import { CHANGEPASSWORD } from "@/constants/keys";
 import { Button } from "@/components/text-button";
+import { ChangeDTO } from "@/lib/DTO/change-dto";
 import { AppRoutes } from "@/constants/routes";
-import { ResetDTO } from "@/lib/DTO/reset-dto";
 import { Input } from "@/components/input";
 
-const ResetPasswordForm = () => {
+const ChangePasswordForm = () => {
   const { setLoading: setGlobalLoading } = useAuthStore();
-  const navigate = useNavigate();
-  const { token } = useParams();
+  const { user } = useUserStore();
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
-    mutationKey: [RESETPASSWORDKEY],
-    mutationFn: AuthService.resetPassword,
+    mutationKey: [CHANGEPASSWORD],
+    mutationFn: AuthService.changePassword,
     onSuccess: (res: GenericResponse) => {
       toast.success(res.message);
       setGlobalLoading(false);
-      navigate(AppRoutes.SignIn);
+      navigate(AppRoutes.Root);
     },
     onError: (error: ErrorResponse) => {
       toast.error(error.message);
@@ -37,22 +38,22 @@ const ResetPasswordForm = () => {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!token) {
-      toast.error("No token was provided");
+    if (!user?.email_address) {
+      toast.error("No email address was provided");
       return;
     }
 
     const formData = new FormData(e.currentTarget);
 
-    const resetPasswordData: ResetDTO = {
-      token: token,
-      old_password: formData.get("old-password") as string,
-      new_password: formData.get("new-password") as string,
-    };
+    const changePasswordData = Object.fromEntries(
+      formData.entries()
+    ) as ChangeDTO;
+
+    changePasswordData.email = user.email_address;
 
     setGlobalLoading(true);
 
-    mutate(resetPasswordData);
+    mutate(changePasswordData);
   };
 
   return (
@@ -83,7 +84,7 @@ const ResetPasswordForm = () => {
       ))}
 
       <Button
-        label="Reset"
+        label="Change"
         disabled={isPending}
         loading={isPending}
         type="submit"
@@ -92,4 +93,4 @@ const ResetPasswordForm = () => {
   );
 };
 
-export { ResetPasswordForm };
+export { ChangePasswordForm };

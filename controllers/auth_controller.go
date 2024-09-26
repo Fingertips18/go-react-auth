@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
@@ -271,9 +270,6 @@ func ResetPassword(c fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: res.Error.Error()})
 	}
 
-	fmt.Println("Password", user.Password)
-	fmt.Println("Old Password", data.OldPassword)
-
 	if err := utils.VerifyPassword([]byte(user.Password), []byte(data.OldPassword)); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorDTO{Error: "Password did not match"})
 	}
@@ -297,4 +293,42 @@ func ResetPassword(c fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(dto.GenericDTO{Message: "Password reset success details has been sent to your email"})
+}
+
+func ChangePassword(c fiber.Ctx) error {
+	var data struct {
+		Email       string `json:"email"`
+		OldPassword string `json:"old_password"`
+		NewPassword string `json:"new_password"`
+	}
+	if err := c.Bind().JSON(&data); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorDTO{Error: "Old or new password is either invalid or empty"})
+	}
+
+	var user models.User
+	res := database.Instance.Where("email_address = ?", data.Email).First(&user)
+	if res.Error != nil {
+		if res.Error == gorm.ErrRecordNotFound {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorDTO{Error: "User not found"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: res.Error.Error()})
+	}
+
+	if err := utils.VerifyPassword([]byte(user.Password), []byte(data.OldPassword)); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorDTO{Error: "Password did not match"})
+	}
+
+	password, err := utils.HashPassword(data.NewPassword)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorDTO{Error: err.Error()})
+	}
+
+	user.Password = password
+
+	res = database.Instance.Save(&user)
+	if res.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: "Unable to save change password credentials"})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(dto.GenericDTO{Message: "Password change success"})
 }

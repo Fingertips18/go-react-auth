@@ -8,4 +8,5 @@ export enum AppRoutes {
   VerifyEmail = "/verify-email",
   ResendVerify = "/resend-verify",
   VerifyToken = "/verify-token",
+  ChangePassword = "/change-password",
 }

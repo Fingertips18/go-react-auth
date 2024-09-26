@@ -3,6 +3,7 @@ import { ErrorResponse } from "@/lib/classes/error-response-class";
 import { UserResponse } from "@/lib/classes/user-response-class";
 import { SignUpDTO } from "@/lib/DTO/sign-up-dto";
 import { SignInDTO } from "@/lib/DTO/sign-in-dto";
+import { ChangeDTO } from "@/lib/DTO/change-dto";
 import { AppRoutes } from "@/constants/routes";
 import { ResetDTO } from "@/lib/DTO/reset-dto";
 
@@ -177,6 +178,28 @@ export const AuthService = {
         }),
       }
     );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new ErrorResponse({
+        status: res.status,
+        message: data.error,
+      });
+    }
+
+    return new GenericResponse({
+      message: data.message,
+    });
+  },
+  changePassword: async (change: ChangeDTO) => {
+    const res = await fetch(`${baseURL}${AppRoutes.ChangePassword}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(change),
+    });
 
     const data = await res.json();
 

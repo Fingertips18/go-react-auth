@@ -1,6 +1,7 @@
 import { useUserStore } from "@/lib/stores/user-store";
 import { formatDate } from "@/lib/utils/date";
 
+import { ChangePassword } from "./change-password";
 import { WelcomeUser } from "./welcome-user";
 import { InfoPair } from "./info-pair";
 
@@ -9,7 +10,7 @@ const Content = () => {
 
   return (
     <section className="h-[calc(100dvh_-_56px)] flex-center max-w-screen-lg mx-auto px-4 lg:px-0">
-      <div className="w-fit space-y-6">
+      <div className="w-full sm:w-fit space-y-6">
         <WelcomeUser name={user?.username} />
 
         <div className="w-full rounded-md border border-secondary/50 bg-secondary/15 drop-shadow-2xl">
@@ -28,6 +29,8 @@ const Content = () => {
           />
           <InfoPair label="Verified" value={user!.is_verified ? "Yes" : "No"} />
         </div>
+
+        <ChangePassword />
       </div>
     </section>
   );
