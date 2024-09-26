@@ -8,6 +8,7 @@ import { useUserStore } from "@/lib/stores/user-store";
 import { useAuthStore } from "@/lib/stores/auth-store";
 import IconButton from "@/components/icon-button";
 import { SIGNOUTKEY } from "@/constants/keys";
+import { Hint } from "@/components/hint";
 
 const SignOutButton = () => {
   const { setAuthorized } = useAuthStore();
@@ -24,7 +25,15 @@ const SignOutButton = () => {
     onError: ({ message }) => toast.error(message),
   });
 
-  return <IconButton onClick={mutate} icon={DoorOpen} loading={isPending} />;
+  return (
+    <>
+      <a data-tooltip-id="sign-out">
+        <IconButton onClick={mutate} icon={DoorOpen} loading={isPending} />
+      </a>
+
+      <Hint id="sign-out" content="Sign out" isAccent />
+    </>
+  );
 };
 
 export { SignOutButton };
