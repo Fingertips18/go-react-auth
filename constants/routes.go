@@ -14,4 +14,5 @@ const (
 	VERIFYTOKEN    = "/verify-token"
 	FORGOTPASSWORD = "/forgot-password"
 	RESETPASSWORD  = "/reset-password"
+	CHANGEPASSWORD = "/change-password"
 )

@@ -6,3 +6,4 @@ export const RESENDVERIFYKEY = "resend-verify";
 export const VERIFYTOKENKEY = "verify-token";
 export const FORGOTPASSWORDKEY = "forgot-password";
 export const RESETPASSWORDKEY = "reset-password";
+export const CHANGEPASSWORD = "change-password";

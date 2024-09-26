@@ -18,4 +18,5 @@ func UseAuthRoute(app *fiber.App) {
 	app.Get(fmt.Sprintf("%s%s", constants.AUTH, constants.VERIFYTOKEN), controllers.VerifyToken, middlewares.VerifyToken)
 	app.Post(fmt.Sprintf("%s%s", constants.AUTH, constants.FORGOTPASSWORD), controllers.ForgotPassword)
 	app.Post(fmt.Sprintf("%s%s/:token", constants.AUTH, constants.RESETPASSWORD), controllers.ResetPassword)
+	app.Post(fmt.Sprintf("%s%s", constants.AUTH, constants.CHANGEPASSWORD), controllers.ChangePassword)
 }
