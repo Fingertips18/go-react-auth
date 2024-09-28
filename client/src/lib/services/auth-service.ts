@@ -26,11 +26,13 @@ export const AuthService = {
       throw new ErrorResponse({
         status: res.status,
         message: data.error,
+        response: res,
       });
     }
 
     return new GenericResponse({
       message: data.message,
+      response: res,
     });
   },
   signIn: async (signIn: SignInDTO) => {
@@ -49,12 +51,14 @@ export const AuthService = {
       throw new ErrorResponse({
         status: res.status,
         message: data.error,
+        response: res,
       });
     }
 
     return new UserResponse({
       message: data.message,
       user: data.user,
+      response: res,
     });
   },
   signOut: async () => {
@@ -71,6 +75,7 @@ export const AuthService = {
 
     return new GenericResponse({
       message: data.message,
+      response: res,
     });
   },
   verifyEmail: async (token: string) => {
@@ -90,11 +95,13 @@ export const AuthService = {
       throw new ErrorResponse({
         status: res.status,
         message: data.error,
+        response: res,
       });
     }
 
     return new GenericResponse({
       message: data.message,
+      response: res,
     });
   },
   resendVerify: async (email: string) => {
@@ -110,14 +117,16 @@ export const AuthService = {
 
     const data = await res.json();
     if (!res.ok) {
-      return new ErrorResponse({
+      throw new ErrorResponse({
         status: res.status,
         message: data.error,
+        response: res,
       });
     }
 
     return new GenericResponse({
       message: data.message,
+      response: res,
     });
   },
   verifyToken: async () => {
@@ -132,12 +141,14 @@ export const AuthService = {
       throw new ErrorResponse({
         status: res.status,
         message: data.error,
+        response: res,
       });
     }
 
     return new UserResponse({
       message: data.message,
       user: data.user,
+      response: res,
     });
   },
   forgotPassword: async (email: string) => {
@@ -157,11 +168,13 @@ export const AuthService = {
       throw new ErrorResponse({
         status: res.status,
         message: data.error,
+        response: res,
       });
     }
 
     return new GenericResponse({
       message: data.message,
+      response: res,
     });
   },
   resetPassword: async (reset: ResetDTO) => {
@@ -185,11 +198,13 @@ export const AuthService = {
       throw new ErrorResponse({
         status: res.status,
         message: data.error,
+        response: res,
       });
     }
 
     return new GenericResponse({
       message: data.message,
+      response: res,
     });
   },
   changePassword: async (change: ChangeDTO) => {
@@ -207,11 +222,13 @@ export const AuthService = {
       throw new ErrorResponse({
         status: res.status,
         message: data.error,
+        response: res,
       });
     }
 
     return new GenericResponse({
       message: data.message,
+      response: res,
     });
   },
 };
