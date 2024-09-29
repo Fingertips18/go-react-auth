@@ -5,5 +5,4 @@ export type UserDTO = {
   last_signed_in: Date;
   is_verified: boolean;
   created_at: Date;
-  updated_at: Date;
 };

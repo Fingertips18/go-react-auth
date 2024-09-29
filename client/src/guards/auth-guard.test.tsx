@@ -11,7 +11,7 @@ import { AppRoutes } from "@/constants/routes";
 
 import AuthGuard from "./auth-guard";
 
-vi.mock("../lib/stores/auth-store.ts", () => ({
+vi.mock("@/lib/stores/auth-store", () => ({
   useAuthStore: vi.fn(),
 }));
 

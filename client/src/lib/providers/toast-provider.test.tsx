@@ -7,7 +7,7 @@ import { useTheme } from "@/lib/hooks/use-theme";
 
 import ToastProvider from "./toast-provider";
 
-vi.mock("../hooks/use-theme.tsx", () => ({
+vi.mock("@/lib/hooks/use-theme", () => ({
   useTheme: vi.fn(),
 }));
 
