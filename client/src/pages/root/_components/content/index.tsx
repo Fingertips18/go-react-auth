@@ -17,7 +17,7 @@ const Content = () => {
           <InfoPair label="Email" value={user?.email_address} />
           <InfoPair
             label="Last Visit"
-            value={formatDate(new Date(user!.last_signed_in).toDateString())}
+            value={formatDate(new Date(user!.last_signed_in).toISOString())}
           />
           <InfoPair
             label="Joined"

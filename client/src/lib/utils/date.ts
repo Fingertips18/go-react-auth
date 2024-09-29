@@ -1,11 +1,11 @@
 export const formatDate = (dateString: string) => {
   const date = new Date(dateString);
 
-  if (isNaN(date.getTime())) {
+  if (isNaN(date.getDate())) {
     return "Invalid Date";
   }
 
-  return date.toLocaleString("en-US", {
+  return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
