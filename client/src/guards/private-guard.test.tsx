@@ -9,6 +9,7 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import { useAuthStore } from "@/lib/stores/auth-store";
+import { useUserStore } from "@/lib/stores/user-store";
 import { AppRoutes } from "@/constants/routes";
 
 import PrivateGuard from "./private-guard";
@@ -20,11 +21,27 @@ vi.mock("@/lib/stores/auth-store", () => ({
   }),
 }));
 
+vi.mock("@/lib/stores/user-store", () => ({
+  useUserStore: vi.fn().mockReturnValueOnce({
+    setUser: vi.fn(),
+  }),
+}));
+
 vi.mock("@tanstack/react-query", () => ({
   useQuery: vi.fn().mockReturnValueOnce({
     isLoading: false,
     isError: false,
     isSuccess: false,
+    data: {
+      user: {
+        id: "abc123",
+        username: "Test",
+        email_address: "test@example.com",
+        last_signed_in: new Date(),
+        is_verified: false,
+        created_at: new Date(),
+      },
+    },
   }),
 }));
 
@@ -60,6 +77,10 @@ describe("Private Guard", () => {
       initialEntries: [AppRoutes.Root],
     });
 
+    (useUserStore as unknown as Mock).mockRejectedValueOnce({
+      setUser: vi.fn(),
+    });
+
     (useAuthStore as unknown as Mock).mockReturnValueOnce({
       authenticated: true,
       setAuthorized: vi.fn(),
@@ -69,6 +90,9 @@ describe("Private Guard", () => {
       isError: true,
       isLoading: false,
       isSuccess: false,
+      data: {
+        user: undefined,
+      },
     });
 
     render(<RouterProvider router={router} />);
@@ -81,6 +105,10 @@ describe("Private Guard", () => {
       initialEntries: [AppRoutes.Root],
     });
 
+    (useUserStore as unknown as Mock).mockReturnValueOnce({
+      setUser: vi.fn(),
+    });
+
     (useAuthStore as unknown as Mock).mockReturnValueOnce({
       authorized: true,
       setAuthorized: vi.fn(),
@@ -90,6 +118,9 @@ describe("Private Guard", () => {
       isError: false,
       isLoading: false,
       isSuccess: true,
+      data: {
+        user: undefined,
+      },
     });
 
     render(<RouterProvider router={router} />);
@@ -100,6 +131,10 @@ describe("Private Guard", () => {
   it("renders loading component when query is loading", () => {
     const router = createMemoryRouter(routes, {
       initialEntries: [AppRoutes.Root],
+    });
+
+    (useUserStore as unknown as Mock).mockRejectedValueOnce({
+      useUser: vi.fn(),
     });
 
     (useAuthStore as unknown as Mock).mockReturnValueOnce({

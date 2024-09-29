@@ -12,7 +12,6 @@ const user: UserDTO = {
   last_signed_in: new Date(),
   is_verified: false,
   created_at: new Date(),
-  updated_at: new Date(),
 };
 
 describe("userStore", () => {
@@ -61,7 +60,6 @@ describe("userStore", () => {
       ...storedUser,
       last_signed_in: new Date(storedUser.last_signed_in),
       created_at: new Date(storedUser.created_at),
-      updated_at: new Date(storedUser.updated_at),
     };
 
     expect(parsedUser).toEqual(user);
