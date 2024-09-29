@@ -43,7 +43,7 @@ func SignUp(c fiber.Ctx) error {
 	exp := time.Now().Add(time.Hour * 24)
 	user.VerificationTokenExpiration = &exp
 
-	res := database.Instance.Create(&user)
+	res := database.Instance.Select("").Create(&user)
 	if res.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: "Unable to create user"})
 	}
@@ -65,7 +65,7 @@ func SignIn(c fiber.Ctx) error {
 	}
 
 	var user models.User
-	res := database.Instance.Where("email_address = ?", data.Email).First(&user)
+	res := database.Instance.Select("id", "username", "email_address", "password", "is_verified", "created_at").Where("email_address = ?", data.Email).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorDTO{Error: "User not found"})
@@ -85,9 +85,7 @@ func SignIn(c fiber.Ctx) error {
 
 		utils.SetCookieToken(c, token)
 
-		user.LastSignedIn = time.Now()
-
-		res = database.Instance.Save(&user)
+		res = database.Instance.Model(&user).Update("last_signed_in", time.Now())
 		if res.Error != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: "Unable to save sign in credentials"})
 		}
@@ -117,7 +115,7 @@ func VerifyEmail(c fiber.Ctx) error {
 
 	var user models.User
 
-	res := database.Instance.Where("verification_token = ?", data.Token).Where("verification_token_exp > ?", time.Now()).First(&user)
+	res := database.Instance.Select("id", "email_address", "username").Where("verification_token = ?", data.Token).Where("verification_token_exp > ?", time.Now()).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorDTO{Error: "Invalid or expired verification token"})
@@ -129,7 +127,13 @@ func VerifyEmail(c fiber.Ctx) error {
 	user.VerificationToken = nil
 	user.VerificationTokenExpiration = nil
 
-	res = database.Instance.Save(&user)
+	updates := map[string]interface{}{
+		"is_verified":            user.IsVerified,
+		"verification_token":     user.VerificationToken,
+		"verification_token_exp": user.VerificationTokenExpiration,
+	}
+
+	res = database.Instance.Model(&user).Updates(updates)
 	if res.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: "Unable to save email verification credentials"})
 	}
@@ -152,7 +156,7 @@ func ResendVerify(c fiber.Ctx) error {
 
 	var user models.User
 
-	res := database.Instance.Where("email_address = ?", data.Email).First(&user)
+	res := database.Instance.Select("id", "email_address", "username").Where("email_address = ?", data.Email).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorDTO{Error: "User not found"})
@@ -168,7 +172,12 @@ func ResendVerify(c fiber.Ctx) error {
 		exp := time.Now().Add(time.Hour * 24)
 		user.VerificationTokenExpiration = &exp
 
-		res = database.Instance.Save(&user)
+		updates := map[string]interface{}{
+			"verification_token":     user.VerificationToken,
+			"verification_token_exp": user.VerificationTokenExpiration,
+		}
+
+		res = database.Instance.Model(&user).Updates(updates)
 		if res.Error != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: "Unable to save email verification credentials"})
 		}
@@ -190,7 +199,7 @@ func VerifyToken(c fiber.Ctx) error {
 
 	var user models.User
 
-	res := database.Instance.Where("id = ?", id).First(&user)
+	res := database.Instance.Select("id", "username", "email_address", "password", "is_verified", "created_at").Where("id = ?", id).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorDTO{
@@ -217,7 +226,7 @@ func ForgotPassword(c fiber.Ctx) error {
 	}
 
 	var user models.User
-	res := database.Instance.Where("email_address = ?", data.Email).First(&user)
+	res := database.Instance.Select("id", "email_address").Where("email_address = ?", data.Email).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorDTO{Error: "User not found"})
@@ -234,12 +243,17 @@ func ForgotPassword(c fiber.Ctx) error {
 	user.ResetPasswordToken = resetPasswordToken
 	user.ResetPasswordTokenExpiration = &resetPasswordTokenExp
 
-	res = database.Instance.Save(&user)
+	updates := map[string]interface{}{
+		"reset_password_token":     user.ResetPasswordToken,
+		"reset_password_token_exp": user.ResetPasswordTokenExpiration,
+	}
+
+	res = database.Instance.Model(&user).Updates(updates)
 	if res.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: "Unable to save forgot password credentials"})
 	}
 
-	if err := utils.SendEmailRequestResetPassword(user.Email, *resetPasswordToken); err != nil {
+	if err := utils.SendEmailRequestResetPassword(user.Email, *user.ResetPasswordToken); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: err.Error()})
 	}
 
@@ -262,7 +276,7 @@ func ResetPassword(c fiber.Ctx) error {
 
 	var user models.User
 
-	res := database.Instance.Where("reset_password_token = ?", token).First(&user)
+	res := database.Instance.Select("id", "username", "email_address", "password").Where("reset_password_token = ?", token).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorDTO{Error: "User not found"})
@@ -283,7 +297,13 @@ func ResetPassword(c fiber.Ctx) error {
 	user.ResetPasswordToken = nil
 	user.ResetPasswordTokenExpiration = nil
 
-	res = database.Instance.Save(&user)
+	updates := map[string]interface{}{
+		"password":                 user.Password,
+		"reset_password_token":     user.ResetPasswordToken,
+		"reset_password_token_exp": user.ResetPasswordTokenExpiration,
+	}
+
+	res = database.Instance.Model(&user).Updates(updates)
 	if res.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: "Unable to save reset password credentials"})
 	}
@@ -306,7 +326,7 @@ func ChangePassword(c fiber.Ctx) error {
 	}
 
 	var user models.User
-	res := database.Instance.Where("email_address = ?", data.Email).First(&user)
+	res := database.Instance.Select("id", "password").Where("email_address = ?", data.Email).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorDTO{Error: "User not found"})
@@ -323,9 +343,7 @@ func ChangePassword(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorDTO{Error: err.Error()})
 	}
 
-	user.Password = password
-
-	res = database.Instance.Save(&user)
+	res = database.Instance.Model(&user).Update("password", password)
 	if res.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorDTO{Error: "Unable to save change password credentials"})
 	}
