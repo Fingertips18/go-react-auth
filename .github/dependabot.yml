@@ -2,7 +2,7 @@ version: 2
 updates:
   # Update Go dependencies for the root directory
   - name: "Update Go Dependencies"
-    package-ecosystem: "go"
+    package-ecosystem: "gomod"
     directory: /
     schedule:
       interval: "daily" # Check for updates every day
