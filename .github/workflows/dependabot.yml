@@ -1,0 +1,37 @@
+name: "Dependabot Configuration"
+
+version: 2
+updates:
+  # Update Go dependencies for the root directory
+  - name: "Update Go Dependencies"
+    package-ecosystem: "go"
+    directory: /
+    schedule:
+      interval: "daily" # Check for updates every day
+    allow:
+      - dependency-name: "github.com/test/*" # Only allow updates from the specified Go dependencies
+    commit-message:
+      prefix: chore # Use 'chore' prefix for the commit message
+      include: scope # Include the scope (dependency name) in the commit message
+
+  # Update npm dependencies for the client directory
+  - name: "Update NPM Dependencies (Client)"
+    package-ecosystem: "npm"
+    directory: /client
+    schedule:
+      interval: "daily" # Check for updates every day
+    allow:
+      - dependency-name: "github.com/Fingertips18/*" # Only allow updates from the specified npm dependencies
+    commit-message:
+      prefix: chore # Use 'chore' prefix for the commit message
+      include: scope # Include the scope (dependency name) in the commit message
+
+  # Update GitHub Actions dependencies for the root directory
+  - name: "Update GitHub Actions"
+    package-ecosystem: "github-actions"
+    directory: /
+    schedule:
+      interval: "weekly" # Check for updates once a week
+    commit-message:
+      prefix: chore # Use 'chore' prefix for the commit message
+      include: scope # Include the scope (dependency name) in the commit message
