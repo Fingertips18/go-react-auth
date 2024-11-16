@@ -1,7 +1,6 @@
 version: 2
 updates:
   # Update Go dependencies for the root directory
-  - name: "Update Go Dependencies"
     package-ecosystem: "gomod"
     directory: /
     schedule:
@@ -13,7 +12,6 @@ updates:
       include: scope # Include the scope (dependency name) in the commit message
 
   # Update npm dependencies for the client directory
-  - name: "Update NPM Dependencies (Client)"
     package-ecosystem: "npm"
     directory: /client
     schedule:
@@ -25,7 +23,6 @@ updates:
       include: scope # Include the scope (dependency name) in the commit message
 
   # Update GitHub Actions dependencies for the root directory
-  - name: "Update GitHub Actions"
     package-ecosystem: "github-actions"
     directory: /
     schedule:
