@@ -1,11 +1,7 @@
-import {
-  createMemoryRouter,
-  RouteObject,
-  RouterProvider,
-} from "react-router-dom";
+import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
+import { render, waitFor, screen } from "@testing-library/react";
 import { describe, it, expect, vi, Mock } from "vitest";
 import { useQuery } from "@tanstack/react-query";
-import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import { useAuthStore } from "@/lib/stores/auth-store";
@@ -45,38 +41,32 @@ vi.mock("@tanstack/react-query", () => ({
   }),
 }));
 
-const routes: RouteObject[] = [
-  {
-    path: AppRoutes.SignIn,
-    element: <div>Sign In</div>,
-  },
-  {
-    element: <PrivateGuard />,
-    children: [
-      {
-        path: AppRoutes.Root,
-        element: <div>Root</div>,
-      },
-    ],
-  },
-];
+// Helper to track the current route location
+function LocationDisplay() {
+  const location = useLocation();
+  return <div data-testid="location">{location.pathname}</div>;
+}
 
 describe("Private Guard", () => {
-  it("redirects to sign-in page when not authorized", () => {
-    const router = createMemoryRouter(routes, {
-      initialEntries: [AppRoutes.Root],
+  it("redirects to sign-in page when not authorized", async () => {
+    render(
+      <MemoryRouter initialEntries={[AppRoutes.Root]}>
+        <Routes>
+          <Route path={AppRoutes.SignIn} element={<div>Sign In</div>} />
+          <Route element={<PrivateGuard />}>
+            <Route path={AppRoutes.Root} element={<div>Root</div>} />
+          </Route>
+        </Routes>
+        <LocationDisplay /> {/* Track current location */}
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("location").textContent).toBe(AppRoutes.SignIn);
     });
-
-    render(<RouterProvider router={router} />);
-
-    expect(router.state.location.pathname).toEqual(AppRoutes.SignIn);
   });
 
-  it("redirects to sign in page when an error occurs", () => {
-    const router = createMemoryRouter(routes, {
-      initialEntries: [AppRoutes.Root],
-    });
-
+  it("redirects to sign in page when an error occurs", async () => {
     (useUserStore as unknown as Mock).mockRejectedValueOnce({
       setUser: vi.fn(),
     });
@@ -95,16 +85,24 @@ describe("Private Guard", () => {
       },
     });
 
-    render(<RouterProvider router={router} />);
+    render(
+      <MemoryRouter initialEntries={[AppRoutes.Root]}>
+        <Routes>
+          <Route path={AppRoutes.SignIn} element={<div>Sign In</div>} />
+          <Route element={<PrivateGuard />}>
+            <Route path={AppRoutes.Root} element={<div>Root</div>} />
+          </Route>
+        </Routes>
+        <LocationDisplay /> {/* Track current location */}
+      </MemoryRouter>
+    );
 
-    expect(router.state.location.pathname).toEqual(AppRoutes.SignIn);
+    await waitFor(() => {
+      expect(screen.getByTestId("location").textContent).toBe(AppRoutes.SignIn);
+    });
   });
 
-  it("allows access to root page when authorized", () => {
-    const router = createMemoryRouter(routes, {
-      initialEntries: [AppRoutes.Root],
-    });
-
+  it("allows access to root page when authorized", async () => {
     (useUserStore as unknown as Mock).mockReturnValueOnce({
       setUser: vi.fn(),
     });
@@ -123,16 +121,24 @@ describe("Private Guard", () => {
       },
     });
 
-    render(<RouterProvider router={router} />);
+    render(
+      <MemoryRouter initialEntries={[AppRoutes.Root]}>
+        <Routes>
+          <Route path={AppRoutes.SignIn} element={<div>Sign In</div>} />
+          <Route element={<PrivateGuard />}>
+            <Route path={AppRoutes.Root} element={<div>Root</div>} />
+          </Route>
+        </Routes>
+        <LocationDisplay /> {/* Track current location */}
+      </MemoryRouter>
+    );
 
-    expect(router.state.location.pathname).toEqual(AppRoutes.Root);
+    await waitFor(() => {
+      expect(screen.getByTestId("location").textContent).toBe(AppRoutes.Root);
+    });
   });
 
   it("renders loading component when query is loading", () => {
-    const router = createMemoryRouter(routes, {
-      initialEntries: [AppRoutes.Root],
-    });
-
     (useUserStore as unknown as Mock).mockRejectedValueOnce({
       useUser: vi.fn(),
     });
@@ -148,7 +154,17 @@ describe("Private Guard", () => {
       isSuccess: false,
     });
 
-    const { container } = render(<RouterProvider router={router} />);
+    const { container } = render(
+      <MemoryRouter initialEntries={[AppRoutes.Root]}>
+        <Routes>
+          <Route path={AppRoutes.SignIn} element={<div>Sign In</div>} />
+          <Route element={<PrivateGuard />}>
+            <Route path={AppRoutes.Root} element={<div>Root</div>} />
+          </Route>
+        </Routes>
+        <LocationDisplay /> {/* Track current location */}
+      </MemoryRouter>
+    );
 
     const loader = container.querySelector("svg");
 
