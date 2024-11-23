@@ -1,9 +1,6 @@
 name: Go Test Workflow
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -12,10 +9,13 @@ jobs:
   test:
     name: Run Go Tests
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup Go
         uses: actions/setup-go@v5
