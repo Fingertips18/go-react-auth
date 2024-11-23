@@ -5,8 +5,6 @@ updates:
     directory: /
     schedule:
       interval: "daily" # Check for updates every day
-    allow:
-      - dependency-name: "github.com/Fingertips18/*" # Only allow updates from the specified Go dependencies
     commit-message:
       prefix: "chore" # Use 'chore' prefix for the commit message
       include: "scope" # Include the scope (dependency name) in the commit message
@@ -16,8 +14,6 @@ updates:
     directory: /client
     schedule:
       interval: "daily" # Check for updates every day
-    allow:
-      - dependency-name: "github.com/Fingertips18/*" # Only allow updates from the specified npm dependencies
     commit-message:
       prefix: "chore" # Use 'chore' prefix for the commit message
       include: "scope" # Include the scope (dependency name) in the commit message
