@@ -3,9 +3,8 @@ import {
   RouteObject,
   RouterProvider,
 } from "react-router-dom";
-import { describe, it, expect, vi, Mock, beforeAll } from "vitest";
+import { describe, it, expect, vi, Mock } from "vitest";
 import { render, waitFor } from "@testing-library/react";
-import { Router } from "@remix-run/router";
 
 import { useAuthStore } from "@/lib/stores/auth-store";
 import { AppRoutes } from "@/constants/routes";
@@ -33,19 +32,14 @@ const routes: RouteObject[] = [
 ];
 
 describe("Auth Guard", () => {
-  let router: Router;
-
-  beforeAll(() => {
+  it("redirects to the root page when authorized", async () => {
     (useAuthStore as unknown as Mock).mockReturnValueOnce({
       authorized: true,
     });
 
-    router = createMemoryRouter(routes, {
+    const router = createMemoryRouter(routes, {
       initialEntries: [AppRoutes.SignIn],
     });
-  });
-
-  it("redirects to the root page when authorized", async () => {
     render(<RouterProvider router={router} />);
 
     await waitFor(() => {
@@ -54,12 +48,12 @@ describe("Auth Guard", () => {
   });
 
   it("renders the outlet when not authorized", async () => {
-    router = createMemoryRouter(routes, {
-      initialEntries: [AppRoutes.SignIn],
-    });
-
     (useAuthStore as unknown as Mock).mockReturnValueOnce({
       authorized: false,
+    });
+
+    const router = createMemoryRouter(routes, {
+      initialEntries: [AppRoutes.SignIn],
     });
 
     render(<RouterProvider router={router} />);
