@@ -51,12 +51,19 @@ describe("Auth Guard", () => {
   });
 
   it("renders the outlet when not authorized", () => {
+    // Change the mock return value to simulate an unauthorized user
     (useAuthStore as unknown as Mock).mockReturnValueOnce({
       authorized: false,
     });
 
+    // Update the router state to reflect the new authorization state
+    router = createMemoryRouter(routes, {
+      initialEntries: [AppRoutes.SignIn],
+    });
+
     render(<RouterProvider router={router} />);
 
-    expect(router);
+    // Assert that the Sign In page is rendered
+    expect(router.state.location.pathname).toBe(AppRoutes.SignIn);
   });
 });
