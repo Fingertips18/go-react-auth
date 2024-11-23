@@ -3,7 +3,7 @@ import {
   RouteObject,
   RouterProvider,
 } from "react-router-dom";
-import { describe, it, expect, vi, Mock, beforeAll } from "vitest";
+import { describe, it, expect, vi, Mock } from "vitest";
 import { render } from "@testing-library/react";
 
 import { useAuthStore } from "@/lib/stores/auth-store";
@@ -32,21 +32,19 @@ const routes: RouteObject[] = [
 ];
 
 describe("Auth Guard", () => {
-  let router: ReturnType<typeof createMemoryRouter>;
-
-  beforeAll(() => {
+  it("redirects to the root page when authorized", () => {
     (useAuthStore as unknown as Mock).mockReturnValueOnce({
       authorized: true,
     });
 
-    router = createMemoryRouter(routes, {
+    // Update the router state to reflect the new authorization state
+    const router = createMemoryRouter(routes, {
       initialEntries: [AppRoutes.SignIn],
     });
 
     render(<RouterProvider router={router} />);
-  });
 
-  it("redirects to the root page when authorized", () => {
+    // Assert that the Root page is rendered
     expect(router.state.location.pathname).toBe(AppRoutes.Root);
   });
 
@@ -56,8 +54,7 @@ describe("Auth Guard", () => {
       authorized: false,
     });
 
-    // Update the router state to reflect the new authorization state
-    router = createMemoryRouter(routes, {
+    const router = createMemoryRouter(routes, {
       initialEntries: [AppRoutes.SignIn],
     });
 
