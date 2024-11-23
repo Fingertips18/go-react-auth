@@ -11,7 +11,7 @@ import { AppRoutes } from "@/constants/routes";
 
 import AuthGuard from "./auth-guard";
 
-vi.mock("@/lib/stores/auth-store", () => ({
+vi.mock("../lib/stores/auth-store.ts", () => ({
   useAuthStore: vi.fn(),
 }));
 
@@ -40,6 +40,7 @@ describe("Auth Guard", () => {
     const router = createMemoryRouter(routes, {
       initialEntries: [AppRoutes.SignIn],
     });
+
     render(<RouterProvider router={router} />);
 
     await waitFor(() => {

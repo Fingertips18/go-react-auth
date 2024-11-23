@@ -14,14 +14,14 @@ import { AppRoutes } from "@/constants/routes";
 
 import PrivateGuard from "./private-guard";
 
-vi.mock("@/lib/stores/auth-store", () => ({
+vi.mock("../lib/stores/auth-store.ts", () => ({
   useAuthStore: vi.fn().mockReturnValueOnce({
     authorized: false,
     setAuthorized: vi.fn(),
   }),
 }));
 
-vi.mock("@/lib/stores/user-store", () => ({
+vi.mock("../lib/stores/user-store.ts", () => ({
   useUserStore: vi.fn().mockReturnValueOnce({
     setUser: vi.fn(),
   }),
