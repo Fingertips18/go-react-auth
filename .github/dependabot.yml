@@ -1,6 +1,6 @@
 version: 2
 updates:
-  # Update Go dependencies for the root directory
+  # Update Go dependencies in the root directory
   - package-ecosystem: "gomod"
     directory: /
     schedule:
@@ -8,21 +8,27 @@ updates:
     commit-message:
       prefix: "chore" # Use 'chore' prefix for the commit message
       include: "scope" # Include the scope (dependency name) in the commit message
+    reviewers:
+      - Fingertips18
 
-  # Update npm dependencies for the client directory
+  # Update npm dependencies in the client directory
   - package-ecosystem: "npm"
     directory: /client
     schedule:
-      interval: "daily" # Check for updates every day
+      interval: "daily"
     commit-message:
-      prefix: "chore" # Use 'chore' prefix for the commit message
-      include: "scope" # Include the scope (dependency name) in the commit message
+      prefix: "chore"
+      include: "scope"
+    reviewers:
+      - Fingertips18
 
-  # Update GitHub Actions dependencies for the root directory
+  # Update GitHub Actions dependencies in the root directory
   - package-ecosystem: "github-actions"
     directory: /
     schedule:
-      interval: "weekly" # Check for updates once a week
+      interval: "weekly"
     commit-message:
-      prefix: "chore" # Use 'chore' prefix for the commit message
-      include: "scope" # Include the scope (dependency name) in the commit message
+      prefix: "chore"
+      include: "scope"
+    reviewers:
+      - Fingertips18
