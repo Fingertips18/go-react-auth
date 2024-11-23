@@ -3,8 +3,9 @@ import {
   RouteObject,
   RouterProvider,
 } from "react-router-dom";
-import { describe, it, expect, vi, Mock } from "vitest";
-import { render } from "@testing-library/react";
+import { describe, it, expect, vi, Mock, beforeAll } from "vitest";
+import { render, waitFor } from "@testing-library/react";
+import { Router } from "@remix-run/router";
 
 import { useAuthStore } from "@/lib/stores/auth-store";
 import { AppRoutes } from "@/constants/routes";
@@ -32,35 +33,39 @@ const routes: RouteObject[] = [
 ];
 
 describe("Auth Guard", () => {
-  it("redirects to the root page when authorized", () => {
+  let router: Router;
+
+  beforeAll(() => {
     (useAuthStore as unknown as Mock).mockReturnValueOnce({
       authorized: true,
     });
 
-    // Update the router state to reflect the new authorization state
-    const router = createMemoryRouter(routes, {
+    router = createMemoryRouter(routes, {
+      initialEntries: [AppRoutes.SignIn],
+    });
+  });
+
+  it("redirects to the root page when authorized", async () => {
+    render(<RouterProvider router={router} />);
+
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe(AppRoutes.Root);
+    });
+  });
+
+  it("renders the outlet when not authorized", async () => {
+    router = createMemoryRouter(routes, {
       initialEntries: [AppRoutes.SignIn],
     });
 
-    render(<RouterProvider router={router} />);
-
-    // Assert that the Root page is rendered
-    expect(router.state.location.pathname).toBe(AppRoutes.Root);
-  });
-
-  it("renders the outlet when not authorized", () => {
-    // Change the mock return value to simulate an unauthorized user
     (useAuthStore as unknown as Mock).mockReturnValueOnce({
       authorized: false,
     });
 
-    const router = createMemoryRouter(routes, {
-      initialEntries: [AppRoutes.SignIn],
-    });
-
     render(<RouterProvider router={router} />);
 
-    // Assert that the Sign In page is rendered
-    expect(router.state.location.pathname).toBe(AppRoutes.SignIn);
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe(AppRoutes.SignIn);
+    });
   });
 });
