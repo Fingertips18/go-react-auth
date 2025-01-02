@@ -16,7 +16,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.62.8",
+    "@tanstack/react-query": "^5.62.11",
     "cookies": "^0.9.1",
     "lucide-react": "^0.468.0",
     "react": "^18.3.1",
