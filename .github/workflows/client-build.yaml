@@ -26,10 +26,12 @@ jobs:
           npm ci --cache .npm --prefer-offline
 
       - name: Run Build
-        run: npm run build
+        run: |
+          cd client
+          npm run build
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: backend-app
+          name: client-app
           path: app
