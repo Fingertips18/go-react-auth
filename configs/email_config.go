@@ -1,7 +1,7 @@
 package configs
 
 import (
-	"log"
+	"errors"
 	"net/smtp"
 	"os"
 )
@@ -13,12 +13,15 @@ var (
 
 const SMTPADDRESS = "smtp.gmail.com:587"
 
-func ConfigureEmail() {
+func ConfigureEmail() error {
 	EMAIL := os.Getenv("EMAIL")
 	PASSWORD := os.Getenv("EMAIL_APP_PASSWORD")
+
 	if EMAIL == "" || PASSWORD == "" {
-		log.Fatal("EMAIL or EMAIL_APP_PASSWORD must be set")
+		return errors.New("EMAIL or EMAIL_APP_PASSWORD must be set")
 	}
 
 	SMTPAuth = smtp.PlainAuth("", EMAIL, PASSWORD, "smtp.gmail.com")
+	Email = EMAIL
+	return nil
 }
