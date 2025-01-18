@@ -3,7 +3,7 @@ name: Backend - Build
 on:
   pull_request:
     branches:
-      - development
+      - develop
   workflow_dispatch:
 
 jobs:
