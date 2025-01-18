@@ -1,0 +1,51 @@
+name: Backend - Build
+
+on:
+  pull_request:
+    branches:
+      - development
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ">=1.23"
+
+      - name: Cache Go Modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/go-build
+          key: ${{ runner.os }}-go-build-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-build-
+
+      - name: Check Go Version
+        run: go version
+
+      - name: Run Build
+        env:
+          PORT: ${{ vars.PORT }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+          SUPABASE_URI: ${{ secrets.SUPABASE_URI }}
+          RUN_MIGRATIONS: ${{ vars.RUN_MIGRATIONS }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: |
+          if ! go build -tags netgo -ldflags '-s -w' -o app; then
+            echo "Build failed. Please check the logs."
+            exit 1
+          fi
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-app
+          path: app
