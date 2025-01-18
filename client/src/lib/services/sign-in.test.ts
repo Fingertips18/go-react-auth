@@ -19,7 +19,6 @@ const user: UserDTO = {
   last_signed_in: new Date(),
   is_verified: false,
   created_at: new Date(),
-  updated_at: new Date(),
 };
 
 describe("signIn", () => {
