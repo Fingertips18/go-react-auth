@@ -1,0 +1,68 @@
+name: Go React Auth | Build
+
+on:
+  pull_request:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ">=1.23"
+
+      - name: Cache Go Modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/go-build
+          key: ${{ runner.os }}-go-build-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-build-
+
+      - name: Check Go Version
+        run: go version
+
+      - name: Run Server Build
+        run: go build -tags netgo -ldflags '-s -w' -o app
+
+      - name: Upload Server Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: server
+          path: app
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Cache Node Modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('client/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Install Client Dependencies
+        run: npm ci --cache .npm --prefer-offline
+        working-directory: client
+
+      - name: Run Build
+        run: npm run build
+        working-directory: client
+
+      - name: Upload Client Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: client
+          path: app
