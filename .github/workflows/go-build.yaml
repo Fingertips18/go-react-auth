@@ -34,7 +34,6 @@ jobs:
       - name: Run Build
         env:
           PORT: ${{ vars.PORT }}
-          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
           SUPABASE_URI: ${{ secrets.SUPABASE_URI }}
           RUN_MIGRATIONS: ${{ vars.RUN_MIGRATIONS }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
