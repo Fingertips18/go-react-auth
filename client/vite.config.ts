@@ -1,17 +1,25 @@
+import { defineConfig as testConfig } from "vitest/config";
+import { defineConfig as viteConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import { defineConfig } from "vitest/config";
 import path from "path";
 
-// https://vitejs.dev/config/
-export default defineConfig({
+const defineViteConfig = viteConfig({
   plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
   },
+});
+
+const defineTestConfig = testConfig({
   test: {
     globals: true,
     environment: "jsdom",
   },
 });
+
+export default {
+  ...defineViteConfig,
+  ...defineTestConfig,
+};

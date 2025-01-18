@@ -1,17 +1,18 @@
-name: Client Test
+name: Client - Build
 
 on:
   pull_request:
     branches:
       - develop
+  workflow_dispatch:
 
 jobs:
-  test:
-    name: Run Client Tests
+  build:
+    name: Build Application
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -19,12 +20,18 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           cd client
           npm ci --cache .npm --prefer-offline
 
-      - name: Run vitest
+      - name: Run Build
         run: |
           cd client
-          npm run test
+          npm run build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-app
+          path: app
