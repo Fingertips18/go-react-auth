@@ -8,7 +8,7 @@ const Title = ({ title, body }: TitleProps) => {
     <div className="w-full rounded-md border border-primary/50 bg-primary/15 drop-shadow-2xl">
       <h2
         className="text-lg lg:text-2xl font-extrabold text-center uppercase 
-        bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent
+        bg-linear-to-r from-primary to-accent bg-clip-text text-transparent
         drop-shadow-primary-glow animate-pulse p-4"
       >
         {title}

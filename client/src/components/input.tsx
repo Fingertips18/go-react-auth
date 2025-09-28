@@ -74,7 +74,7 @@ const Input = ({
           disabled={disabled}
           required={required}
           maxLength={maxLength}
-          className={`w-full md:w-[400px] bg-background py-2.5 rounded-lg outline-none border ring-1 focus:ring-2 transition-all 
+          className={`w-full md:w-[400px] bg-background py-2.5 rounded-lg outline-hidden border ring-1 focus:ring-2 transition-all 
             placeholder-foreground/50 disabled:bg-opacity-25 disabled:border-primary/25 disabled:text-foreground/50 disabled:pointer-events-none
             ${isPassword ? "px-11" : "pl-11"}
             ${
