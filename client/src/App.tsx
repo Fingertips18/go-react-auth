@@ -11,6 +11,15 @@ import SignInPage from "@/pages/sign-in/page";
 import SignUpPage from "@/pages/sign-up/page";
 import VerifyEmailPage from "@/pages/verify-email/page";
 
+/**
+ * Application root component that configures client-side routes and applies authentication guards.
+ *
+ * Renders a full-height scrolling container and declares two guarded route groups:
+ * - Private routes (root and change password) protected by PrivateGuard.
+ * - Auth-related routes (sign up, sign in, verify email, forgot password, reset password with `:token`) protected by AuthGuard.
+ *
+ * @returns The root JSX element containing the app's Routes and guarded route groups.
+ */
 function App() {
   return (
     <main className="h-dvh overflow-x-hidden overflow-y-auto">
