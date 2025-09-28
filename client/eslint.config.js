@@ -3,9 +3,8 @@ import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
-import { defineConfig } from "vite";
 
-export default defineConfig(
+export default tseslint.config(
   { ignores: ["node_modules", "dist", ".env*"] },
   eslint.configs.recommended,
   tseslint.configs.strict,

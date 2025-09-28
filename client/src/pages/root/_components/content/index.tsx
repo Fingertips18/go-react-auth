@@ -17,17 +17,28 @@ const Content = () => {
           <InfoPair label="Email" value={user?.email_address} />
           <InfoPair
             label="Last Visit"
-            value={formatDate(new Date(user!.last_signed_in).toISOString())}
+            value={
+              user
+                ? formatDate(new Date(user.last_signed_in).toISOString())
+                : undefined
+            }
           />
           <InfoPair
             label="Joined"
-            value={new Date(user!.created_at).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            value={
+              user
+                ? new Date(user.created_at).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                : undefined
+            }
           />
-          <InfoPair label="Verified" value={user!.is_verified ? "Yes" : "No"} />
+          <InfoPair
+            label="Verified"
+            value={user ? (user.is_verified ? "Yes" : "No") : "No"}
+          />
         </div>
 
         <ChangePassword />

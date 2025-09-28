@@ -1,7 +1,7 @@
-type GenericResponseType = {
+interface GenericResponseType {
   message: string;
   response: Response;
-};
+}
 
 export class GenericResponse {
   public message: string;
