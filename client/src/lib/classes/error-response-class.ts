@@ -1,8 +1,8 @@
-type ErrorResponseType = {
+export interface ErrorResponseType {
   status: number;
   message: string;
   response: Response;
-};
+}
 
 export class ErrorResponse extends Error {
   public status: number;

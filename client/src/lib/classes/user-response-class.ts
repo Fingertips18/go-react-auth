@@ -1,10 +1,10 @@
 import { UserDTO } from "@/lib/DTO/user-dto";
 
-type UserResponseType = {
+interface UserResponseType {
   message: string;
   user: UserDTO;
   response: Response;
-};
+}
 
 export class UserResponse {
   public message: string;

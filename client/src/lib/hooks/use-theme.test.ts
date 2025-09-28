@@ -13,9 +13,15 @@ describe("useTheme", () => {
         matches: false,
         media: query,
         onchange: null,
-        addEventListener: () => {},
-        removeEventListener: () => {},
-        dispatchEvent: () => {},
+        addEventListener: () => {
+          /* empty */
+        },
+        removeEventListener: () => {
+          /* empty */
+        },
+        dispatchEvent: () => {
+          /* empty */
+        },
       }),
     });
   });

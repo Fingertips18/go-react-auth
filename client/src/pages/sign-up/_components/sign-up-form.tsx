@@ -38,7 +38,21 @@ const SignUpForm = () => {
 
     const formData = new FormData(e.currentTarget);
 
-    const signUpData = Object.fromEntries(formData.entries()) as SignUpDTO;
+    const raw = Object.fromEntries(formData.entries());
+
+    if (
+      typeof raw.username !== "string" ||
+      typeof raw.email !== "string" ||
+      typeof raw.password !== "string"
+    ) {
+      throw new Error("Invalid form data");
+    }
+
+    const signUpData: SignUpDTO = {
+      username: raw.username,
+      email: raw.email,
+      password: raw.password,
+    };
 
     setGlobalLoading(true);
 
