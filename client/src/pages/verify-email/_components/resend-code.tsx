@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { GenericResponse } from "@/lib/classes/generic-response-class";
+import { RESENDVERIFYKEY } from "@/constants/keys";
 import { ErrorResponse } from "@/lib/classes/error-response-class";
+import { GenericResponse } from "@/lib/classes/generic-response-class";
 import { AuthService } from "@/lib/services/auth-service";
 import { useAuthStore } from "@/lib/stores/auth-store";
-import { RESENDVERIFYKEY } from "@/constants/keys";
 
 const ResendCode = () => {
   const {

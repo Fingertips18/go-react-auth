@@ -1,7 +1,7 @@
 import { Title } from "@/components/title";
 
-import { ForgotPasswordForm } from "./_components/forgot-password-form";
 import { ForgotPasswordBack } from "./_components/forgot-password-back";
+import { ForgotPasswordForm } from "./_components/forgot-password-form";
 
 const ForgotPasswordPage = () => {
   return (

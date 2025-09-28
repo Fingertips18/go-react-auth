@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeAll } from "vitest";
 import { act, renderHook } from "@testing-library/react";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import { useResize } from "./use-resize";
 

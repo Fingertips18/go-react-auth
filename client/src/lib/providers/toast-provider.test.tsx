@@ -1,7 +1,8 @@
-import { describe, it, expect, vi, beforeAll, Mock } from "vitest";
-import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
+
+import { render } from "@testing-library/react";
 import { toast } from "sonner";
+import { beforeAll, describe, expect, it, Mock, vi } from "vitest";
 
 import { useTheme } from "@/lib/hooks/use-theme";
 

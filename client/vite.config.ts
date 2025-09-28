@@ -1,7 +1,7 @@
-import { defineConfig as testConfig } from "vitest/config";
-import { defineConfig as viteConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { defineConfig as viteConfig } from "vite";
+import { defineConfig as testConfig } from "vitest/config";
 
 const defineViteConfig = viteConfig({
   plugins: [react()],

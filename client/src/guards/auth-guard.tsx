@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-import { useAuthStore } from "@/lib/stores/auth-store";
 import { AppRoutes } from "@/constants/routes";
+import { useAuthStore } from "@/lib/stores/auth-store";
 
 const AuthGuard = () => {
   const { authorized } = useAuthStore();

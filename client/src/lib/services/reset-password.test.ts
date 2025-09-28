@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, Mock } from "vitest";
+import { describe, expect, it, Mock, vi } from "vitest";
 
+import { AppRoutes } from "@/constants/routes";
 import { ResetDTO } from "@/lib/DTO/reset-dto";
 
 import { AuthService } from "./auth-service";
-import { AppRoutes } from "@/constants/routes";
 
 global.fetch = vi.fn();
 

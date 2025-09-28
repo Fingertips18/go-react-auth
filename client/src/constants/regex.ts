@@ -7,8 +7,8 @@ const SpecialRegex = /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/;
 
 export {
   EmailRegex,
-  UpperCaseRegex,
   LowerCaseRegex,
   NumberRegex,
   SpecialRegex,
+  UpperCaseRegex,
 };

@@ -2,8 +2,8 @@ import { useUserStore } from "@/lib/stores/user-store";
 import { formatDate } from "@/lib/utils/date";
 
 import { ChangePassword } from "./change-password";
-import { WelcomeUser } from "./welcome-user";
 import { InfoPair } from "./info-pair";
+import { WelcomeUser } from "./welcome-user";
 
 const Content = () => {
   const { user } = useUserStore();

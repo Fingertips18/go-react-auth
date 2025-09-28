@@ -1,7 +1,8 @@
-import { fireEvent, render, act } from "@testing-library/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { describe, it, expect, vi } from "vitest";
 import "@testing-library/jest-dom";
+
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { act, fireEvent, render } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 
 import QueryProvider from "./query-provider";
 

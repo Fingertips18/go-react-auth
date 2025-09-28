@@ -1,7 +1,7 @@
 import { Title } from "@/components/title";
 
-import { ChangePasswordForm } from "./_components/change-password-form";
 import { ChangePasswordBack } from "./_components/change-password-back";
+import { ChangePasswordForm } from "./_components/change-password-form";
 
 const ChangePasswordPage = () => {
   return (

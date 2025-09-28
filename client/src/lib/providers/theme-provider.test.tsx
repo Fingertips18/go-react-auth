@@ -1,6 +1,7 @@
-import { describe, it, expect, vi, beforeAll } from "vitest";
-import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
+
+import { render } from "@testing-library/react";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 
 import { ThemeProvider, ThemeProviderContext } from "./theme-provider";
 

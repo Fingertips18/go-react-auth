@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import { AppRoutes } from "@/constants/routes";
 import { KEY } from "@/constants/assets";
+import { AppRoutes } from "@/constants/routes";
 
 const Logo = () => {
   return (

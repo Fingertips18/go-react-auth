@@ -1,11 +1,11 @@
-import { GenericResponse } from "@/lib/classes/generic-response-class";
-import { ErrorResponse } from "@/lib/classes/error-response-class";
-import { UserResponse } from "@/lib/classes/user-response-class";
-import { SignUpDTO } from "@/lib/DTO/sign-up-dto";
-import { SignInDTO } from "@/lib/DTO/sign-in-dto";
-import { ChangeDTO } from "@/lib/DTO/change-dto";
 import { AppRoutes } from "@/constants/routes";
+import { ErrorResponse } from "@/lib/classes/error-response-class";
+import { GenericResponse } from "@/lib/classes/generic-response-class";
+import { UserResponse } from "@/lib/classes/user-response-class";
+import { ChangeDTO } from "@/lib/DTO/change-dto";
 import { ResetDTO } from "@/lib/DTO/reset-dto";
+import { SignInDTO } from "@/lib/DTO/sign-in-dto";
+import { SignUpDTO } from "@/lib/DTO/sign-up-dto";
 
 const baseURL =
   import.meta.env.VITE_ENV === "development"

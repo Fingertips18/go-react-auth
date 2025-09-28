@@ -1,6 +1,6 @@
+import { Logo } from "./logo";
 import { SignOutButton } from "./sign-out-button";
 import { ToggleMode } from "./toggle-mode";
-import { Logo } from "./logo";
 
 const Header = () => {
   return (

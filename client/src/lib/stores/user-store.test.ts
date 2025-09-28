@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, it, test } from "vitest";
 import { act, renderHook } from "@testing-library/react";
+import { beforeEach, describe, expect, it, test } from "vitest";
 
 import { UserDTO } from "@/lib/DTO/user-dto";
 

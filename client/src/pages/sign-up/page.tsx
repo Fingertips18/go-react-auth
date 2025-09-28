@@ -1,5 +1,5 @@
-import { Title } from "@/components/title";
 import { Or } from "@/components/or";
+import { Title } from "@/components/title";
 
 import { AlreadyHaveAccount } from "./_components/already-have-account";
 import { SignUpForm } from "./_components/sign-up-form";
