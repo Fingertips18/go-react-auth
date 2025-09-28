@@ -45,9 +45,21 @@ const ChangePasswordForm = () => {
 
     const formData = new FormData(e.currentTarget);
 
-    const changePasswordData = Object.fromEntries(
-      formData.entries()
-    ) as unknown as ChangeDTO;
+    const raw = Object.fromEntries(formData.entries());
+
+    if (
+      typeof raw.email !== "string" ||
+      typeof raw.old_password !== "string" ||
+      typeof raw.new_password !== "string"
+    ) {
+      throw new Error("Invalid form data");
+    }
+
+    const changePasswordData: ChangeDTO = {
+      email: raw.email,
+      old_password: raw.old_password,
+      new_password: raw.new_password,
+    };
 
     changePasswordData.email = user.email_address;
 

@@ -53,9 +53,16 @@ const SignInForm = () => {
 
     const formData = new FormData(e.currentTarget);
 
-    const signInData = Object.fromEntries(
-      formData.entries()
-    ) as unknown as SignInDTO;
+    const raw = Object.fromEntries(formData.entries());
+
+    if (typeof raw.email !== "string" || typeof raw.password !== "string") {
+      throw new Error("Invalid form data");
+    }
+
+    const signInData: SignInDTO = {
+      email: raw.email,
+      password: raw.password,
+    };
 
     setEmail(signInData.email);
     setGlobalLoading(true);
