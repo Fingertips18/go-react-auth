@@ -1,16 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
-import { FormEvent, useState } from "react";
 import { Mail } from "lucide-react";
+import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 
-import { GenericResponse } from "@/lib/classes/generic-response-class";
-import { ErrorResponse } from "@/lib/classes/error-response-class";
-import { AuthService } from "@/lib/services/auth-service";
-import { ValidateEmail } from "@/lib/utils/validations";
-import { useAuthStore } from "@/lib/stores/auth-store";
-import { FORGOTPASSWORDKEY } from "@/constants/keys";
-import { Button } from "@/components/text-button";
 import { Input } from "@/components/input";
+import { Button } from "@/components/text-button";
+import { FORGOTPASSWORDKEY } from "@/constants/keys";
+import { ErrorResponse } from "@/lib/classes/error-response-class";
+import { GenericResponse } from "@/lib/classes/generic-response-class";
+import { AuthService } from "@/lib/services/auth-service";
+import { useAuthStore } from "@/lib/stores/auth-store";
+import { ValidateEmail } from "@/lib/utils/validations";
 
 const ForgotPasswordForm = () => {
   const { setLoading: setGlobalLoading } = useAuthStore();

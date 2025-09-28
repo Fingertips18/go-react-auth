@@ -1,10 +1,10 @@
+import { Eye, EyeOff, Info, LucideProps } from "lucide-react";
 import {
   ForwardRefExoticComponent,
   RefAttributes,
   useEffect,
   useState,
 } from "react";
-import { Eye, EyeOff, Info, LucideProps } from "lucide-react";
 
 import { Hint } from "./hint";
 

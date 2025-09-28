@@ -1,19 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import { GenericResponse } from "@/lib/classes/generic-response-class";
-import { ErrorResponse } from "@/lib/classes/error-response-class";
+import { Input } from "@/components/input";
+import { Button } from "@/components/text-button";
 import { RESET_PASSWORD_INPUTS } from "@/constants/collections";
+import { CHANGEPASSWORD } from "@/constants/keys";
+import { AppRoutes } from "@/constants/routes";
+import { ErrorResponse } from "@/lib/classes/error-response-class";
+import { GenericResponse } from "@/lib/classes/generic-response-class";
+import { ChangeDTO } from "@/lib/DTO/change-dto";
 import { AuthService } from "@/lib/services/auth-service";
 import { useAuthStore } from "@/lib/stores/auth-store";
 import { useUserStore } from "@/lib/stores/user-store";
-import { CHANGEPASSWORD } from "@/constants/keys";
-import { Button } from "@/components/text-button";
-import { ChangeDTO } from "@/lib/DTO/change-dto";
-import { AppRoutes } from "@/constants/routes";
-import { Input } from "@/components/input";
 
 const ChangePasswordForm = () => {
   const { setLoading: setGlobalLoading } = useAuthStore();

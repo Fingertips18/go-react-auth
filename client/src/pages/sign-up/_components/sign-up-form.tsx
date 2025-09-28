@@ -1,18 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import { GenericResponse } from "@/lib/classes/generic-response-class";
-import { ErrorResponse } from "@/lib/classes/error-response-class";
-import { AuthService } from "@/lib/services/auth-service";
-import { SIGNUP_INPUTS } from "@/constants/collections";
-import { useAuthStore } from "@/lib/stores/auth-store";
-import { SignUpDTO } from "@/lib/DTO/sign-up-dto";
-import { Button } from "@/components/text-button";
-import { AppRoutes } from "@/constants/routes";
-import { SIGNUPKEY } from "@/constants/keys";
 import { Input } from "@/components/input";
+import { Button } from "@/components/text-button";
+import { SIGNUP_INPUTS } from "@/constants/collections";
+import { SIGNUPKEY } from "@/constants/keys";
+import { AppRoutes } from "@/constants/routes";
+import { ErrorResponse } from "@/lib/classes/error-response-class";
+import { GenericResponse } from "@/lib/classes/generic-response-class";
+import { SignUpDTO } from "@/lib/DTO/sign-up-dto";
+import { AuthService } from "@/lib/services/auth-service";
+import { useAuthStore } from "@/lib/stores/auth-store";
 
 const SignUpForm = () => {
   const { setLoading: setGlobalLoading } = useAuthStore();

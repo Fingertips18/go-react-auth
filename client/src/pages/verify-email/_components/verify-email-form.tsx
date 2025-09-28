@@ -1,15 +1,15 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import { GenericResponse } from "@/lib/classes/generic-response-class";
-import { ErrorResponse } from "@/lib/classes/error-response-class";
-import { AuthService } from "@/lib/services/auth-service";
-import { useAuthStore } from "@/lib/stores/auth-store";
 import { Button } from "@/components/text-button";
 import { VERIFYEMAILKEY } from "@/constants/keys";
 import { AppRoutes } from "@/constants/routes";
+import { ErrorResponse } from "@/lib/classes/error-response-class";
+import { GenericResponse } from "@/lib/classes/generic-response-class";
+import { AuthService } from "@/lib/services/auth-service";
+import { useAuthStore } from "@/lib/stores/auth-store";
 
 import { SingleInput } from "./single-input";
 

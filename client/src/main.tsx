@@ -1,13 +1,14 @@
-import { BrowserRouter } from "react-router-dom";
-import { createRoot } from "react-dom/client";
-import { StrictMode } from "react";
+import "./index.css";
 
-import { ThemeProvider } from "@/lib/providers/theme-provider.tsx";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+
 import QueryProvider from "@/lib/providers/query-provider.tsx";
+import { ThemeProvider } from "@/lib/providers/theme-provider.tsx";
 import ToastProvider from "@/lib/providers/toast-provider.tsx";
 
 import App from "./App.tsx";
-import "./index.css";
 
 const root = document.getElementById("root");
 

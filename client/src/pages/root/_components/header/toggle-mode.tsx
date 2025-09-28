@@ -1,8 +1,8 @@
 import { Moon, Sun } from "lucide-react";
 
-import { Theme, useTheme } from "@/lib/hooks/use-theme";
-import IconButton from "@/components/icon-button";
 import { Hint } from "@/components/hint";
+import IconButton from "@/components/icon-button";
+import { Theme, useTheme } from "@/lib/hooks/use-theme";
 
 const ToggleMode = () => {
   const { theme, setTheme } = useTheme();

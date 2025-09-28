@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, Mock } from "vitest";
+import { describe, expect, it, Mock, vi } from "vitest";
 
 import { ChangeDTO } from "@/lib/DTO/change-dto";
 

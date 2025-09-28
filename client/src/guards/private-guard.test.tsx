@@ -1,12 +1,13 @@
-import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
-import { render, waitFor, screen } from "@testing-library/react";
-import { describe, it, expect, vi, Mock } from "vitest";
-import { useQuery } from "@tanstack/react-query";
 import "@testing-library/jest-dom";
 
+import { useQuery } from "@tanstack/react-query";
+import { render, screen, waitFor } from "@testing-library/react";
+import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
+import { describe, expect, it, Mock, vi } from "vitest";
+
+import { AppRoutes } from "@/constants/routes";
 import { useAuthStore } from "@/lib/stores/auth-store";
 import { useUserStore } from "@/lib/stores/user-store";
-import { AppRoutes } from "@/constants/routes";
 
 import PrivateGuard from "./private-guard";
 

@@ -2,13 +2,13 @@ import { useMutation } from "@tanstack/react-query";
 import { DoorOpen } from "lucide-react";
 import { toast } from "sonner";
 
-import { GenericResponse } from "@/lib/classes/generic-response-class";
-import { AuthService } from "@/lib/services/auth-service";
-import { useUserStore } from "@/lib/stores/user-store";
-import { useAuthStore } from "@/lib/stores/auth-store";
+import { Hint } from "@/components/hint";
 import IconButton from "@/components/icon-button";
 import { SIGNOUTKEY } from "@/constants/keys";
-import { Hint } from "@/components/hint";
+import { GenericResponse } from "@/lib/classes/generic-response-class";
+import { AuthService } from "@/lib/services/auth-service";
+import { useAuthStore } from "@/lib/stores/auth-store";
+import { useUserStore } from "@/lib/stores/user-store";
 
 const SignOutButton = () => {
   const { setAuthorized } = useAuthStore();

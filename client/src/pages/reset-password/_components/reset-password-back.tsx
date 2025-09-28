@@ -1,6 +1,6 @@
 import { PageSwitcher } from "@/components/page-switcher";
-import { useAuthStore } from "@/lib/stores/auth-store";
 import { AppRoutes } from "@/constants/routes";
+import { useAuthStore } from "@/lib/stores/auth-store";
 
 const ResetPasswordBack = () => {
   const { loading } = useAuthStore();

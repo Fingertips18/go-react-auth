@@ -1,7 +1,7 @@
 import { Title } from "@/components/title";
 
-import { VerifyEmailForm } from "./_components/verify-email-form";
 import { ResendCode } from "./_components/resend-code";
+import { VerifyEmailForm } from "./_components/verify-email-form";
 
 const VerifyEmailPage = () => {
   return (
