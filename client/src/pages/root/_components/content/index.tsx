@@ -18,7 +18,7 @@ const Content = () => {
           <InfoPair
             label="Last Visit"
             value={
-              user
+              user?.last_signed_in
                 ? formatDate(new Date(user.last_signed_in).toISOString())
                 : undefined
             }
@@ -26,7 +26,7 @@ const Content = () => {
           <InfoPair
             label="Joined"
             value={
-              user
+              user?.created_at
                 ? new Date(user.created_at).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
@@ -35,10 +35,7 @@ const Content = () => {
                 : undefined
             }
           />
-          <InfoPair
-            label="Verified"
-            value={user ? (user.is_verified ? "Yes" : "No") : "No"}
-          />
+          <InfoPair label="Verified" value={user?.is_verified ? "Yes" : "No"} />
         </div>
 
         <ChangePassword />

@@ -1,4 +1,4 @@
-interface GenericResponseType {
+export interface GenericResponseType {
   message: string;
   response: Response;
 }
