@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - develop
+    paths-ignore:
+      - ".github/workflows/client-test.yaml"
+      - "client/**"
 
 jobs:
   test:
