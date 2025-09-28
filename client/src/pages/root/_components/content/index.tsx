@@ -9,7 +9,7 @@ const Content = () => {
   const { user } = useUserStore();
 
   return (
-    <section className="h-[calc(100dvh_-_56px)] flex-center max-w-screen-lg mx-auto px-4 lg:px-0">
+    <section className="h-[calc(100dvh-56px)] flex-center max-w-(--breakpoint-lg) mx-auto px-4 lg:px-0">
       <div className="w-full sm:w-fit space-y-6">
         <WelcomeUser name={user?.username} />
 
