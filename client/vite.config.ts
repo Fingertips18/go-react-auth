@@ -2,9 +2,10 @@ import { defineConfig as testConfig } from "vitest/config";
 import { defineConfig as viteConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import tailwindcss from "@tailwindcss/vite";
 
 const defineViteConfig = viteConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
