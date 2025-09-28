@@ -53,7 +53,9 @@ const SignInForm = () => {
 
     const formData = new FormData(e.currentTarget);
 
-    const signInData = Object.fromEntries(formData.entries()) as SignInDTO;
+    const signInData = Object.fromEntries(
+      formData.entries()
+    ) as unknown as SignInDTO;
 
     setEmail(signInData.email);
     setGlobalLoading(true);

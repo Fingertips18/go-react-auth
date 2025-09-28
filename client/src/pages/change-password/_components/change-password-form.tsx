@@ -47,7 +47,7 @@ const ChangePasswordForm = () => {
 
     const changePasswordData = Object.fromEntries(
       formData.entries()
-    ) as ChangeDTO;
+    ) as unknown as ChangeDTO;
 
     changePasswordData.email = user.email_address;
 

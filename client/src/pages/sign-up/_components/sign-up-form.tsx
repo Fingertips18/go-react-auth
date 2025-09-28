@@ -38,7 +38,9 @@ const SignUpForm = () => {
 
     const formData = new FormData(e.currentTarget);
 
-    const signUpData = Object.fromEntries(formData.entries()) as SignUpDTO;
+    const signUpData = Object.fromEntries(
+      formData.entries()
+    ) as unknown as SignUpDTO;
 
     setGlobalLoading(true);
 
