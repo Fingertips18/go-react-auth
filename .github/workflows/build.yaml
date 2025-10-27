@@ -35,7 +35,7 @@ jobs:
         run: go build -tags netgo -ldflags '-s -w' -o app
 
       - name: Upload Server Build Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: server
           path: app
